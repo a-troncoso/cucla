@@ -1,0 +1,76 @@
+import React, {useEffect} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Modal,
+  TextInput,
+  useColorScheme,
+} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Avatar} from '../components';
+
+const ModalUser = ({user, isVisible, onSubmitAmount}) => {
+  const inputRef = React.useRef(null);
+  const isDarkMode = useColorScheme() === 'dark';
+
+  const handleShowModal = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
+      onShow={handleShowModal}>
+      <View style={styles.mainView}>
+        <Avatar status={user.status} image={user.image} style={styles.avatar} />
+
+        <View style={styles.inputView}>
+          <Text style={styles.textInputPrefix}>$</Text>
+          <TextInput
+            style={styles.textInputAmount}
+            keyboardType="numeric"
+            onSubmitEditing={onSubmitAmount}
+            ref={inputRef}
+          />
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+const styles = StyleSheet.create({
+  light: {backgroundColor: Colors.lighter},
+  dark: {backgroundColor: Colors.darker},
+  mainView: {
+    // borderWidth: 1,
+    backgroundColor: Colors.darker,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatar: {marginTop: 40, marginBottom: 20},
+
+  inputView: {
+    // borderWidth: 1,
+    position: 'relative',
+    width: '75%',
+    borderBottomWidth: 2,
+    borderBottomColor: Colors.lighter,
+  },
+  textInputPrefix: {
+    position: 'absolute',
+    bottom: 0,
+    fontSize: 48,
+    lineHeight: 68,
+  },
+  textInputAmount: {
+    // borderWidth: 1,
+    left: 32,
+    fontSize: 32,
+  },
+});
+
+export default ModalUser;
