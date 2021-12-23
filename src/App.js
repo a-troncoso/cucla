@@ -8,9 +8,12 @@
 
 import React from 'react';
 import Home from './screens/Home/Home';
+import {useUsers} from './generic/hooks/useUsers';
 
 const App = () => {
-  return <Home />;
+  const {users} = useUsers();
+
+  return <Home users={users} />;
 };
 
 export default App;

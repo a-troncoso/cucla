@@ -6,57 +6,49 @@
  * @flow strict-local
  */
 
-import React, {useState} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
 import {Avatar, Counter} from '../components';
 import ModalUser from './ModalUser';
-
 import api from '../../services/api';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {useDatabase} from '../../generic/hooks/useDatabase';
 
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const AVATAR_STATUS = {
+  IN_FAVOR: 'IN_FAVOR',
+  AGAINST: 'AGAINST',
+};
 
-const Home = () => {
-  const AVATAR_STATUS = {
-    IN_FAVOR: 'IN_FAVOR',
-    AGAINST: 'AGAINST',
-  };
+// const users = [
+//   {
+//     id: 1,
+//     image: {
+//       uri: 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
+//     },
+//     status: AVATAR_STATUS.IN_FAVOR,
+//   },
+//   {
+//     id: 2,
+//     image: {
+//       uri: 'https://www.sespm.es/wp-content/uploads/2017/11/avatar-1577909_960_720.png',
+//     },
+//     status: AVATAR_STATUS.AGAINST,
+//   },
+// ];
+
+const Home = ({users = []}) => {
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
   });
 
-  const isDarkMode = useColorScheme() === 'dark';
+  const {getAppDB} = useDatabase();
 
-  const users = [
-    {
-      id: 1,
-      image: {
-        uri: 'https://www.sespm.es/wp-content/uploads/2017/11/avatar-1577909_960_720.png',
-      },
-      status: AVATAR_STATUS.IN_FAVOR,
-    },
-    {
-      id: 2,
-      image: {
-        uri: 'https://www.sespm.es/wp-content/uploads/2017/11/avatar-1577909_960_720.png',
-      },
-      status: AVATAR_STATUS.AGAINST,
-    },
-  ];
+  useEffect(() => {
+    getAppDB();
+  }, [getAppDB]);
+
+  const isDarkMode = useColorScheme() === 'dark';
 
   const handlePressImage = user => {
     console.log({user});
@@ -97,13 +89,13 @@ const Home = () => {
       <View style={styles.accountCounter}>
         <Avatar
           status={AVATAR_STATUS.IN_FAVOR}
-          image={users[0].image}
+          image={users[0]?.imagePath}
           onPressImage={() => handlePressImage(users[0])}
         />
         <Counter value={180000} style={styles.counter} />
         <Avatar
           status={AVATAR_STATUS.AGAINST}
-          image={users[1].image}
+          image={users[1]?.imagePath}
           onPressImage={() => handlePressImage(users[1])}
         />
       </View>
