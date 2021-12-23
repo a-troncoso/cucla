@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,11 +11,14 @@ import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Avatar} from '../components';
 
 const ModalUser = ({user, isVisible, onSubmitAmount}) => {
-  const inputRef = React.useRef(null);
+  const inputRef = useRef(null);
   const isDarkMode = useColorScheme() === 'dark';
 
   const handleShowModal = () => {
-    inputRef.current.focus();
+    // TODO: fix this
+    setTimeout(() => {
+      inputRef.current.focus();
+    }, 1000);
   };
 
   return (
@@ -34,6 +37,8 @@ const ModalUser = ({user, isVisible, onSubmitAmount}) => {
             keyboardType="numeric"
             onSubmitEditing={onSubmitAmount}
             ref={inputRef}
+            blurOnSubmit={false}
+            autoFocus
           />
         </View>
       </View>

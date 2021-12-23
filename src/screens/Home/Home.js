@@ -7,51 +7,30 @@
  */
 
 import React, {useState, useEffect} from 'react';
-import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
+import {StatusBar, StyleSheet, useColorScheme, View, Image} from 'react-native';
 import {Avatar, Counter} from '../components';
 import ModalUser from './ModalUser';
-import api from '../../services/api';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useDatabase} from '../../generic/hooks/useDatabase';
+import {useMovements} from '../../generic/hooks/useMovements';
+import {useAccount} from '../../generic/hooks/useAccount';
 
 const AVATAR_STATUS = {
   IN_FAVOR: 'IN_FAVOR',
   AGAINST: 'AGAINST',
 };
 
-// const users = [
-//   {
-//     id: 1,
-//     image: {
-//       uri: 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
-//     },
-//     status: AVATAR_STATUS.IN_FAVOR,
-//   },
-//   {
-//     id: 2,
-//     image: {
-//       uri: 'https://www.sespm.es/wp-content/uploads/2017/11/avatar-1577909_960_720.png',
-//     },
-//     status: AVATAR_STATUS.AGAINST,
-//   },
-// ];
-
-const Home = ({users = []}) => {
+const Home = ({accountId = null}) => {
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
   });
 
-  const {getAppDB} = useDatabase();
-
-  useEffect(() => {
-    getAppDB();
-  }, [getAppDB]);
+  const {account, findAccountById} = useAccount({accountId});
+  const {registerMovement} = useMovements({accountId}, () => findAccountById());
 
   const isDarkMode = useColorScheme() === 'dark';
 
   const handlePressImage = user => {
-    console.log({user});
     setModalUserConfig(prevState => ({
       ...prevState,
       isVisible: true,
@@ -60,26 +39,15 @@ const Home = ({users = []}) => {
   };
 
   const handleSubmitAmount = ({nativeEvent}) => {
-    console.log(nativeEvent.text);
     setModalUserConfig(prevState => ({
       ...prevState,
       isVisible: false,
     }));
 
-    registerTransaction(nativeEvent.text);
-  };
-
-  const registerTransaction = async amount => {
-    try {
-      const result = await api.registerTransaction({
-        amount,
-        userId: modalUserConfig.user.id,
-      });
-
-      console.log(result);
-    } catch (e) {
-      alert('Error al registrar', JSON.stringify(e));
-    }
+    registerMovement({
+      amount: nativeEvent.text,
+      payingUserId: modalUserConfig.user.id,
+    });
   };
 
   return (
@@ -88,15 +56,17 @@ const Home = ({users = []}) => {
 
       <View style={styles.accountCounter}>
         <Avatar
+          userName={account.users[0]?.name}
           status={AVATAR_STATUS.IN_FAVOR}
-          image={users[0]?.imagePath}
-          onPressImage={() => handlePressImage(users[0])}
+          image={account.users[0]?.imagePath}
+          onPressImage={() => handlePressImage(account.users[0])}
         />
-        <Counter value={180000} style={styles.counter} />
+        <Counter value={account.debt} style={styles.counter} />
         <Avatar
+          userName={account.users[1]?.name}
           status={AVATAR_STATUS.AGAINST}
-          image={users[1]?.imagePath}
-          onPressImage={() => handlePressImage(users[1])}
+          image={account.users[1]?.imagePath}
+          onPressImage={() => handlePressImage(account.users[1])}
         />
       </View>
 
@@ -117,10 +87,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   accountCounter: {
-    // borderBottomColor: 'black',
-    // borderWidth: 1,
-    // borderStyle: 'solid',
-
     marginTop: 150,
   },
   counter: {

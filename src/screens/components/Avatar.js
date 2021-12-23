@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import {StyleSheet, View, Image, TouchableWithoutFeedback} from 'react-native';
+import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 
 const colorsByStatus = {
   IN_FAVOR: 'inFavor',
@@ -15,6 +15,7 @@ const colorsByStatus = {
 };
 
 const Avatar = ({
+  userName = '',
   image = 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
   status,
   style,
@@ -22,14 +23,15 @@ const Avatar = ({
 }) => {
   return (
     <View style={[styles.mainView, style]}>
-      <TouchableWithoutFeedback
-        style={{borderWidth: 1, borderColor: '#000'}}
+      <TouchableOpacity
+        style={{borderWidth: 1, borderColor: '#fff'}}
         onPress={onPressImage}>
+        <Text>{userName}</Text>
         <Image
           source={{uri: image}}
           style={[styles.avatarImage, styles[colorsByStatus[status]]]}
         />
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </View>
   );
 };
