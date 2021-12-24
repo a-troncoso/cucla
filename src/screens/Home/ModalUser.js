@@ -28,7 +28,11 @@ const ModalUser = ({user, isVisible, onSubmitAmount}) => {
       style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
       onShow={handleShowModal}>
       <View style={styles.mainView}>
-        <Avatar status={user.status} image={user.image} style={styles.avatar} />
+        <Avatar
+          status={user.status}
+          image={user.imagePath}
+          style={styles.avatar}
+        />
 
         <View style={styles.inputView}>
           <Text style={styles.textInputPrefix}>$</Text>

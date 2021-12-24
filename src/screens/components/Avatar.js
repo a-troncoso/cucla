@@ -23,9 +23,7 @@ const Avatar = ({
 }) => {
   return (
     <View style={[styles.mainView, style]}>
-      <TouchableOpacity
-        style={{borderWidth: 1, borderColor: '#fff'}}
-        onPress={onPressImage}>
+      <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
         <Text>{userName}</Text>
         <Image
           source={{uri: image}}
@@ -38,9 +36,9 @@ const Avatar = ({
 
 const styles = StyleSheet.create({
   mainView: {
-    // borderWidth: 1,
     alignItems: 'center',
   },
+  avatarBtn: {alignItems: 'center'},
   avatarImage: {
     width: 200,
     height: 200,
