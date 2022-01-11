@@ -7,21 +7,22 @@
  */
 
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import {thousandFormat, toCurrencyFormat} from 'generic/utils/number';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {thousandFormat} from 'generic/utils/number';
 
-const Counter = ({value, style}) => {
+const Counter = ({value, style, onPress = () => {}}) => {
   return (
-    <View style={[styles.mainView, style]}>
-      <Text style={styles.currencySymbol}>$</Text>
-      <Text style={styles.counterText}>{thousandFormat(value)}</Text>
-    </View>
+    <TouchableOpacity onPress={onPress}>
+      <View style={[styles.mainView, style]}>
+        <Text style={styles.currencySymbol}>$</Text>
+        <Text style={styles.counterText}>{thousandFormat(value)}</Text>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   mainView: {
-    // borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

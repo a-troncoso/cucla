@@ -10,15 +10,13 @@ import {
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Avatar} from '../components';
 
-const ModalUser = ({user, isVisible, onSubmitAmount}) => {
+const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
   const inputRef = useRef(null);
   const isDarkMode = useColorScheme() === 'dark';
 
   const handleShowModal = () => {
     // TODO: fix this
-    setTimeout(() => {
-      inputRef.current.focus();
-    }, 1000);
+    inputRef.current.focus();
   };
 
   return (
@@ -26,7 +24,8 @@ const ModalUser = ({user, isVisible, onSubmitAmount}) => {
       visible={isVisible}
       animationType="slide"
       style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
-      onShow={handleShowModal}>
+      onShow={handleShowModal}
+      onRequestClose={onRequestClose}>
       <View style={styles.mainView}>
         <Avatar
           status={user.status}
@@ -54,16 +53,13 @@ const styles = StyleSheet.create({
   light: {backgroundColor: Colors.lighter},
   dark: {backgroundColor: Colors.darker},
   mainView: {
-    // borderWidth: 1,
     backgroundColor: Colors.darker,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatar: {marginTop: 40, marginBottom: 20},
-
   inputView: {
-    // borderWidth: 1,
     position: 'relative',
     width: '75%',
     borderBottomWidth: 2,
@@ -76,7 +72,6 @@ const styles = StyleSheet.create({
     lineHeight: 68,
   },
   textInputAmount: {
-    // borderWidth: 1,
     left: 32,
     fontSize: 32,
   },

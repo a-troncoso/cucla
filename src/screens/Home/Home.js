@@ -1,22 +1,15 @@
-/**
- * Sample React Native Home
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
-import React, {useState, useEffect} from 'react';
-import {StatusBar, StyleSheet, useColorScheme, View, Image} from 'react-native';
+import React, {useState} from 'react';
+import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
 import {Avatar, Counter} from '../components';
 import ModalUser from './ModalUser';
+import ModalMovements from './ModalMovements';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useMovements} from '../../generic/hooks/useMovements';
 import {useAccount} from '../../generic/hooks/useAccount';
 
 const AVATAR_STATUS = {
   IN_FAVOR: 'IN_FAVOR',
-  AGAINST: 'AGAINST',
+  DEBT: 'DEBT',
 };
 
 const Home = ({accountId = null}) => {
@@ -24,9 +17,22 @@ const Home = ({accountId = null}) => {
     isVisible: false,
     user: {id: null, image: null, status: null},
   });
-
+  const [modalMovements, setModalMovements] = useState({
+    isVisible: false,
+  });
   const {account, findAccountById} = useAccount({accountId});
-  const {registerMovement} = useMovements({accountId}, () => findAccountById());
+  const {registerMovement, movements, fetchMovements, removeMovement} =
+    useMovements(
+      {accountId},
+      () => {
+        findAccountById();
+        fetchMovements();
+      },
+      () => {
+        findAccountById();
+        fetchMovements();
+      },
+    );
 
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -47,7 +53,30 @@ const Home = ({accountId = null}) => {
     registerMovement({
       amount: nativeEvent.text,
       payingUserId: modalUserConfig.user.id,
+      debtUserId: account.users.find(u => u.id !== modalUserConfig.user.id).id,
     });
+  };
+
+  const handlePressCounter = () => {
+    setModalMovements(prevState => ({
+      ...prevState,
+      isVisible: true,
+    }));
+  };
+
+  const handleRequestCloseModal = () => {
+    setModalUserConfig(prevState => ({
+      ...prevState,
+      isVisible: false,
+    }));
+    setModalMovements(prevState => ({
+      ...prevState,
+      isVisible: false,
+    }));
+  };
+
+  const handleRemoveMovement = id => {
+    removeMovement({id});
   };
 
   return (
@@ -61,10 +90,16 @@ const Home = ({accountId = null}) => {
           image={account.users[0]?.imagePath}
           onPressImage={() => handlePressImage(account.users[0])}
         />
-        <Counter value={account.debt} style={styles.counter} />
+        <Counter
+          value={account.debt}
+          style={styles.counter}
+          onPress={handlePressCounter}
+        />
         <Avatar
           userName={account.users[1]?.name}
-          status={AVATAR_STATUS.AGAINST}
+          status={
+            account.debt === 0 ? AVATAR_STATUS.IN_FAVOR : AVATAR_STATUS.DEBT
+          }
           image={account.users[1]?.imagePath}
           onPressImage={() => handlePressImage(account.users[1])}
         />
@@ -74,6 +109,15 @@ const Home = ({accountId = null}) => {
         user={modalUserConfig.user}
         isVisible={modalUserConfig.isVisible}
         onSubmitAmount={handleSubmitAmount}
+        onRequestClose={handleRequestCloseModal}
+      />
+
+      <ModalMovements
+        movements={movements}
+        isVisible={modalMovements.isVisible}
+        onSubmit={handleSubmitAmount}
+        onRequestClose={handleRequestCloseModal}
+        onRemoveMovement={handleRemoveMovement}
       />
     </View>
   );

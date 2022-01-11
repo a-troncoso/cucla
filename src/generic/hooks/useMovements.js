@@ -1,33 +1,68 @@
 import {useDatabase} from './useDatabase';
+import {useState, useEffect} from 'react';
 
-export const useMovements = ({accountId}, onSuccessRegistration) => {
+export const useMovements = (
+  {accountId},
+  onSuccessRegistration,
+  onSuccessRemove,
+) => {
   const {getDB, exQuery} = useDatabase();
+  const [movements, setMovements] = useState([]);
 
-  const registerMovement = async ({amount, payingUserId}) => {
+  const registerMovement = async ({amount, payingUserId, debtUserId}) => {
     try {
       await exQuery(
         getDB(),
         `INSERT INTO "movement"
-      ("payingUserId", "amount", "date", "accountId")
-      VALUES (${payingUserId}, ${amount}, 'today', ${accountId});`,
+        ("payingUserId", "debtUserId", "amount", "date", "accountId")
+        VALUES
+        (${payingUserId}, ${debtUserId}, ${amount}, 'today', ${accountId});`,
       );
 
-      const sum = await exQuery(
-        getDB(),
-        `SELECT u.id, SUM(m.amount) 'sum_amount' FROM user u JOIN movement m ON u.id = m.payingUserId WHERE m.accountId = ${accountId} GROUP BY u.id ORDER BY sum_amount ASC;`,
-      );
-
-      const absDiff = Math.abs(sum[0].sum_amount - sum[1].sum_amount);
-
-      await exQuery(
-        getDB(),
-        `UPDATE "account" SET updatedDebt = ${absDiff} WHERE id = ${accountId};`,
-      );
       onSuccessRegistration();
     } catch (e) {
       console.error(e);
     }
   };
 
-  return {registerMovement};
+  const fetchMovements = async () => {
+    try {
+      const result = await exQuery(
+        getDB(),
+        `SELECT m.id,
+                m.payingUserId, pu.name AS payingUserName,  pu.imagePath AS payingUserImagePath,
+                m.debtUserId, du.name AS debtUserName, du.imagePath AS debtUserImagePath,
+                m.amount
+        FROM movement m
+        INNER JOIN user pu ON m.payingUserId = pu.id
+        INNER JOIN user du ON m.debtUserId = du.id
+        JOIN account a ON a.id = m.accountId
+        WHERE m.accountId = 1 AND m.active=1
+        ORDER BY date DESC;`,
+      );
+
+      setMovements(result);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const removeMovement = async ({id}) => {
+    try {
+      await exQuery(
+        getDB(),
+        `UPDATE "movement" SET active = 0 WHERE id = ${id};`,
+      );
+
+      onSuccessRemove();
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovements();
+  }, []);
+
+  return {registerMovement, movements, fetchMovements, removeMovement};
 };

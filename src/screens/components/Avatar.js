@@ -11,23 +11,26 @@ import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 
 const colorsByStatus = {
   IN_FAVOR: 'inFavor',
-  AGAINST: 'against',
+  DEBT: 'debt',
 };
 
 const Avatar = ({
-  userName = '',
   image = 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
   status,
   style,
+  avatarStyles,
   onPressImage,
 }) => {
   return (
     <View style={[styles.mainView, style]}>
       <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
-        <Text>{userName}</Text>
         <Image
           source={{uri: image}}
-          style={[styles.avatarImage, styles[colorsByStatus[status]]]}
+          style={[
+            styles.avatarImage,
+            styles[colorsByStatus[status]],
+            avatarStyles,
+          ]}
         />
       </TouchableOpacity>
     </View>
@@ -49,7 +52,7 @@ const styles = StyleSheet.create({
   inFavor: {
     borderColor: 'green',
   },
-  against: {
+  debt: {
     borderColor: 'red',
   },
 });
