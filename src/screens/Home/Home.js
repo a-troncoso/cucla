@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
-import {Avatar, Counter} from '../components';
+import {Avatar, Counter} from '../../components';
 import ModalUser from './ModalUser';
 import ModalMovements from './ModalMovements';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {useMovements} from '../../generic/hooks/useMovements';
-import {useAccount} from '../../generic/hooks/useAccount';
+import {useMovements} from 'hooks/useMovements';
+import {useAccount} from 'hooks/useAccount';
 
 const AVATAR_STATUS = {
   IN_FAVOR: 'IN_FAVOR',
@@ -127,11 +127,12 @@ const styles = StyleSheet.create({
   light: {backgroundColor: Colors.lighter},
   dark: {backgroundColor: Colors.darker},
   mainView: {
+    // borderWidth: 1,
+    // borderColor: Colors.white,
     flex: 1,
-    justifyContent: 'center',
   },
   accountCounter: {
-    marginTop: 150,
+    marginTop: 100,
   },
   counter: {
     marginVertical: 16,

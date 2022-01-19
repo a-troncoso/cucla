@@ -1,19 +1,36 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React, {useEffect, useState} from 'react';
+import {View, StyleSheet} from 'react-native';
+import Home from 'screens/Home/Home';
+import AccountSelector from 'components/AccountSelector';
+import {useAccount} from 'hooks/useAccount';
 
-import React from 'react';
-import {Image} from 'react-native';
-import Home from './screens/Home/Home';
-
-const selectedAccountId = 1;
+const initialSelectedAccountId = 1;
+const userIdLogged = 1;
 
 const App = () => {
-  return <Home accountId={selectedAccountId} />;
+  const [selectedAccountId, setSelectedAccountId] = useState(
+    initialSelectedAccountId,
+  );
+  const {accounts} = useAccount({accountId: selectedAccountId});
+
+  const handleSelectAccount = accountId => {
+    setSelectedAccountId(accountId);
+  };
+
+  return (
+    <View style={styles.mainView}>
+      <Home accountId={selectedAccountId} />
+      <AccountSelector
+        accounts={accounts}
+        userIdLogged={userIdLogged}
+        onSelectAccount={id => handleSelectAccount(id)}
+      />
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  mainView: {justifyContent: 'space-around', flex: 1},
+});
 
 export default App;

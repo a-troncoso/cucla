@@ -11,8 +11,8 @@ import {
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import {Avatar} from '../components';
-import {toCurrencyFormat} from 'generic/utils/number';
+import {Avatar} from '../../components';
+import {toCurrencyFormat} from 'utils/number';
 
 const gestureRecognizerConfig = {
   velocityThreshold: 0.3,

@@ -1,14 +1,6 @@
-/**
- * Sample React Native Counter Component
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {thousandFormat} from 'generic/utils/number';
+import {thousandFormat} from 'utils/number';
 
 const Counter = ({value, style, onPress = () => {}}) => {
   return (

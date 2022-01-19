@@ -37,7 +37,7 @@ export const useMovements = (
         INNER JOIN user pu ON m.payingUserId = pu.id
         INNER JOIN user du ON m.debtUserId = du.id
         JOIN account a ON a.id = m.accountId
-        WHERE m.accountId = 1 AND m.active=1
+        WHERE m.accountId = ${accountId} AND m.active=1
         ORDER BY date DESC;`,
       );
 
@@ -62,7 +62,7 @@ export const useMovements = (
 
   useEffect(() => {
     fetchMovements();
-  }, []);
+  }, [accountId]);
 
   return {registerMovement, movements, fetchMovements, removeMovement};
 };

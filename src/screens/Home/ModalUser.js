@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useRef} from 'react';
 import {
   StyleSheet,
   Text,
@@ -8,7 +8,7 @@ import {
   useColorScheme,
 } from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Avatar} from '../components';
+import {Avatar} from '../../components';
 
 const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
   const inputRef = useRef(null);
