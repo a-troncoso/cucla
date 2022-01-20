@@ -3,7 +3,12 @@ import {StyleSheet, View, FlatList} from 'react-native';
 import Avatar from 'components/Avatar';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 
-const AccountSelector = ({accounts, userIdLogged, onSelectAccount}) => {
+const AccountSelector = ({
+  accounts = [],
+  userIdLogged,
+  onSelectAccount = null,
+  onPressAddUser = null,
+}) => {
   const renderItem = ({item}) => {
     return (
       <AccountItem
@@ -25,6 +30,7 @@ const AccountSelector = ({accounts, userIdLogged, onSelectAccount}) => {
           <Avatar
             avatarStyles={styles.avatarHeader}
             image="https://cdn-icons.flaticon.com/png/512/1771/premium/1771192.png?token=exp=1642556694~hmac=99c9fb99bfb4e33303cf15c4441217a9"
+            onPressImage={onPressAddUser}
           />
         }
         ListHeaderComponentStyle={{marginRight: 16}}
@@ -42,6 +48,7 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
         avatarStyles={styles.avatar}
         image={users.find(user => user.id !== userIdLogged).imagePath}
         onPressImage={onPressAvatar}
+        userName={users.find(user => user.id !== userIdLogged).name}
       />
     </View>
   );

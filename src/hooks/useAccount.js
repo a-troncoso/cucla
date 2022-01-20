@@ -68,5 +68,5 @@ export const useAccount = ({accountId = null}) => {
     findAccountById();
   }, [accountId]);
 
-  return {accounts, account, findAccountById};
+  return {accounts, account, findAccounts, findAccountById};
 };

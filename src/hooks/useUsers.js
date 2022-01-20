@@ -1,9 +1,46 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useDatabase} from './useDatabase';
 
-export const useUsers = () => {
+export const useUsers = ({
+  userIdLogged = null,
+  onSuccessUserRegistration = null,
+}) => {
   const {getDB, exQuery} = useDatabase();
   const [users, setUsers] = useState([]);
+  const [userRegistrationResult, setUserRegistrationResult] = useState({
+    insertId: null,
+    rowsAffected: 0,
+  });
+  const [accountRegistrationResult, setAccountRegistrationResult] = useState({
+    insertId: null,
+    rowsAffected: 0,
+  });
+  const [userAccountAssociationResult, setUserAccountAssociationResult] =
+    useState({
+      rowsAffected: 0,
+    });
+
+  useEffect(() => {
+    if (userRegistrationResult.rowsAffected) registerNewAccount();
+  }, [userRegistrationResult]);
+
+  useEffect(() => {
+    if (accountRegistrationResult.rowsAffected) {
+      registerUserAccountAssociation({
+        userId: userRegistrationResult.insertId,
+        accountId: accountRegistrationResult.insertId,
+      });
+
+      registerUserAccountAssociation({
+        userId: userIdLogged,
+        accountId: accountRegistrationResult.insertId,
+      });
+    }
+  }, [accountRegistrationResult, userRegistrationResult]);
+
+  useEffect(() => {
+    if (userAccountAssociationResult.rowsAffected) onSuccessUserRegistration();
+  }, [userAccountAssociationResult]);
 
   const fetchUsers = async () => {
     try {
@@ -14,9 +51,45 @@ export const useUsers = () => {
     }
   };
 
+  const registerUser = async ({name, imagePath}) => {
+    try {
+      const res = await exQuery(
+        getDB(),
+        `INSERT INTO "user" ("name", "imagePath") VALUES ("${name}", "${imagePath}");`,
+      );
+      setUserRegistrationResult(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const registerNewAccount = async () => {
+    try {
+      const res = await exQuery(
+        getDB(),
+        'INSERT INTO "account" DEFAULT VALUES;',
+      );
+      setAccountRegistrationResult(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const registerUserAccountAssociation = async ({userId, accountId}) => {
+    try {
+      const res = await exQuery(
+        getDB(),
+        `INSERT INTO "user_account" ("userId", "accountId") VALUES (${userId}, ${accountId});`,
+      );
+      setUserAccountAssociationResult(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  return {users};
+  return {users, registerUser};
 };

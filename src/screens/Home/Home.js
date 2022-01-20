@@ -85,7 +85,6 @@ const Home = ({accountId = null}) => {
 
       <View style={styles.accountCounter}>
         <Avatar
-          userName={account.users[0]?.name}
           status={AVATAR_STATUS.IN_FAVOR}
           image={account.users[0]?.imagePath}
           onPressImage={() => handlePressImage(account.users[0])}
@@ -96,7 +95,6 @@ const Home = ({accountId = null}) => {
           onPress={handlePressCounter}
         />
         <Avatar
-          userName={account.users[1]?.name}
           status={
             account.debt === 0 ? AVATAR_STATUS.IN_FAVOR : AVATAR_STATUS.DEBT
           }
@@ -127,8 +125,6 @@ const styles = StyleSheet.create({
   light: {backgroundColor: Colors.lighter},
   dark: {backgroundColor: Colors.darker},
   mainView: {
-    // borderWidth: 1,
-    // borderColor: Colors.white,
     flex: 1,
   },
   accountCounter: {

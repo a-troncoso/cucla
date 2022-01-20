@@ -26,7 +26,9 @@ export const useDatabase = () => {
             }
 
             const isInsertStatement = results.insertId ? true : false;
-            data = isInsertStatement ? {insertId: results.insertId} : data;
+            data = isInsertStatement
+              ? {insertId: results.insertId, rowsAffected: results.rowsAffected}
+              : data;
             resolve(data);
           },
           error => reject(error),
