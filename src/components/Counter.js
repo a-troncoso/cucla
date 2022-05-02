@@ -26,6 +26,7 @@ const styles = StyleSheet.create({
   },
   counterText: {
     fontSize: 60,
+    color: 'gray',
   },
 });
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import Avatar from 'components/Avatar';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {colors} from 'utils/colors';
+import AddUserImage from 'assets/add-user.svg';
 
 const AccountSelector = ({
   accounts = [],
@@ -29,7 +30,7 @@ const AccountSelector = ({
         ListHeaderComponent={
           <Avatar
             avatarStyles={styles.avatarHeader}
-            image="https://cdn-icons.flaticon.com/png/512/1771/premium/1771192.png?token=exp=1642556694~hmac=99c9fb99bfb4e33303cf15c4441217a9"
+            image={AddUserImage}
             onPressImage={onPressAddUser}
           />
         }
@@ -59,13 +60,14 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 16,
     flexDirection: 'row',
+    backgroundColor: colors.secondary,
   },
   accountItemView: {
     paddingHorizontal: 12,
     justifyContent: 'center',
   },
   accountItemSeparator: {
-    borderColor: Colors.white,
+    borderColor: colors.white,
     borderLeftWidth: 1,
   },
   avatar: {

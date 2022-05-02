@@ -3,7 +3,7 @@ import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
 import {Avatar, Counter} from '../../components';
 import ModalUser from './ModalUser';
 import ModalMovements from './ModalMovements';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Theme from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import {useAccount} from 'hooks/useAccount';
 
@@ -122,8 +122,8 @@ const Home = ({accountId = null}) => {
 };
 
 const styles = StyleSheet.create({
-  light: {backgroundColor: Colors.lighter},
-  dark: {backgroundColor: Colors.darker},
+  light: {backgroundColor: Theme.lighter},
+  dark: {backgroundColor: Theme.darker},
   mainView: {
     flex: 1,
   },
