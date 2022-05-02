@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import Avatar from 'components/Avatar';
 import {colors} from 'utils/colors';
-import AddUserImage from 'assets/add-user.svg';
+import AddUserImage from '../assets/add-user.svg';
 
 const AccountSelector = ({
   accounts = [],

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import AddUserImage from 'assets/add-user.svg';
 
 const colorsByStatus = {
   IN_FAVOR: 'inFavor',
@@ -18,14 +19,18 @@ const Avatar = ({
   return (
     <View style={[styles.mainView, style]}>
       <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
-        <Image
-          source={{uri: image}}
-          style={[
-            styles.avatarImage,
-            styles[colorsByStatus[status]],
-            avatarStyles,
-          ]}
-        />
+        {typeof image === 'string' ? (
+          <Image
+            source={{uri: image}}
+            style={[
+              styles.avatarImage,
+              styles[colorsByStatus[status]],
+              avatarStyles,
+            ]}
+          />
+        ) : (
+          <View style={[styles.avatarImage, avatarStyles]}>{image}</View>
+        )}
         {userName && <Text style={styles.userName}>{userName}</Text>}
       </TouchableOpacity>
     </View>

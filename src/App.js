@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import Home from 'screens/Home/Home';
 import AccountSelector from 'components/AccountSelector';
 import ModalAddUser from 'components/ModalAddUser';
@@ -50,7 +50,10 @@ const App = () => {
 
   return (
     <View style={styles.mainView}>
-      <Home accountId={selectedAccountId} />
+      <ScrollView>
+        <Home accountId={selectedAccountId} />
+      </ScrollView>
+
       <AccountSelector
         accounts={accounts}
         userIdLogged={userIdLogged}

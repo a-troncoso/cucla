@@ -14,6 +14,8 @@ target 'cucla' do
 
   pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'cuclaTests' do
     inherit! :complete
     # Pods for testing
