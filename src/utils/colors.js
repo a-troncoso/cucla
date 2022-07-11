@@ -4,9 +4,11 @@ export default {
 };
 
 export const colors = {
-  white: '#000',
-  black: '#fff',
+  white: '#fff',
+  black: '#000',
   gray1: '#d3d3d3',
   primary: '#01273D',
   secondary: '#1a3d50',
+  success: '#00b300',
+  error: '#ff0000',
 };

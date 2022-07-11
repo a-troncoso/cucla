@@ -88,13 +88,13 @@ const Movement = ({
         <Avatar
           status="IN_FAVOR"
           image={payingUserImage}
-          style={styles.avatarContainer}
+          containerStyle={styles.avatarContainer}
           avatarStyles={styles.avatar}
         />
         <Text style={styles.amount}>{toCurrencyFormat(amount)}</Text>
         <Avatar
           status="DEBT"
-          style={styles.avatarContainer}
+          containerStyle={styles.avatarContainer}
           image={debtUserImagePath}
           avatarStyles={styles.avatar}
         />

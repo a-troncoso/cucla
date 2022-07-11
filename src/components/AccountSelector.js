@@ -29,8 +29,8 @@ const AccountSelector = ({
         keyExtractor={item => item.id}
         ListHeaderComponent={
           <Avatar
-            avatarStyles={styles.avatarHeader}
-            image={AddUserImage}
+            avatarContainerStyles={styles.avatarContainer}
+            image={<AddUserImage style={styles.avatarHeader} />}
             onPressImage={onPressAddUser}
           />
         }
@@ -46,7 +46,7 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
   return (
     <View style={styles.accountItemView}>
       <Avatar
-        avatarStyles={styles.avatar}
+        avatarContainerStyles={styles.avatar}
         image={users.find(user => user.id !== userIdLogged).imagePath}
         onPressImage={onPressAvatar}
         userName={users.find(user => user.id !== userIdLogged).name}
@@ -75,11 +75,19 @@ const styles = StyleSheet.create({
     height: 56,
     borderWidth: 0,
   },
-  avatarHeader: {
+  avatarContainer: {
     width: 48,
     height: 48,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     borderRadius: 0,
     borderWidth: 0,
+  },
+  avatarHeader: {
+    width: 40,
+    height: 40,
+    color: colors.success,
   },
 });
 

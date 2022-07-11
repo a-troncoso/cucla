@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import AddUserImage from 'assets/add-user.svg';
+import {colors} from 'utils/colors';
 
 const colorsByStatus = {
   IN_FAVOR: 'inFavor',
@@ -12,24 +12,26 @@ const Avatar = ({
   image = 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
   userName,
   status,
-  style,
-  avatarStyles,
+  containerStyle,
+  avatarContainerStyles,
   onPressImage,
 }) => {
   return (
-    <View style={[styles.mainView, style]}>
+    <View style={[styles.mainView, containerStyle]}>
       <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
         {typeof image === 'string' ? (
           <Image
             source={{uri: image}}
             style={[
-              styles.avatarImage,
+              styles.avatarContainerStyles,
               styles[colorsByStatus[status]],
-              avatarStyles,
+              avatarContainerStyles,
             ]}
           />
         ) : (
-          <View style={[styles.avatarImage, avatarStyles]}>{image}</View>
+          <View style={[styles.avatarContainerStyles, avatarContainerStyles]}>
+            {image}
+          </View>
         )}
         {userName && <Text style={styles.userName}>{userName}</Text>}
       </TouchableOpacity>
@@ -42,7 +44,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarBtn: {alignItems: 'center'},
-  avatarImage: {
+  avatarContainerStyles: {
     width: 200,
     height: 200,
     borderRadius: 100,
@@ -56,14 +58,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     lineHeight: 12,
     fontSize: 10,
-    backgroundColor: Colors.black,
-    color: Colors.white,
+    backgroundColor: colors.black,
+    color: colors.white,
   },
   inFavor: {
-    borderColor: 'green',
+    borderColor: colors.success,
   },
   debt: {
-    borderColor: 'red',
+    borderColor: colors.error,
   },
 });
 
