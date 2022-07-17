@@ -1,6 +1,5 @@
 import React from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {colors} from 'utils/colors';
 
 const colorsByStatus = {
@@ -10,6 +9,7 @@ const colorsByStatus = {
 
 export const sizes = {
   SMALL: 'small',
+  SMALL_MEDIUM: 'smallMedium',
   MEDIUM: 'medium',
   LARGE: 'large',
   EXTRA_LARGE: 'extraLarge',
@@ -54,6 +54,12 @@ const stylesBySize = {
     height: 48,
     borderRadius: 24,
     borderWidth: 2,
+  },
+  [sizes.SMALL_MEDIUM]: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    borderWidth: 3,
   },
   [sizes.MEDIUM]: {
     width: 96,

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StatusBar, StyleSheet, View, ScrollView, Text} from 'react-native';
+import {StatusBar, StyleSheet, View, ScrollView, Alert} from 'react-native';
 import {Avatar, Counter} from '../../components';
 import ModalUser from './ModalUser';
 import ModalMovements from './ModalMovements';
@@ -56,10 +56,17 @@ const Home = ({accountId = null}) => {
   };
 
   const handlePressCounter = () => {
-    setModalMovements(prevState => ({
-      ...prevState,
-      isVisible: true,
-    }));
+    if (movements.length === 0)
+      Alert.alert('Movimientos', `No tenemos movimientos para este usuario`, [
+        {
+          text: 'Ok',
+        },
+      ]);
+    else
+      setModalMovements(prevState => ({
+        ...prevState,
+        isVisible: true,
+      }));
   };
 
   const handleRequestCloseModal = () => {
@@ -81,7 +88,7 @@ const Home = ({accountId = null}) => {
     <ScrollView
       style={styles.mainView}
       contentContainerStyle={styles.scrollViewContainer}>
-      <StatusBar />
+      <StatusBar backgroundColor={colors.primary} />
 
       <View style={styles.accountCounter}>
         <Avatar
@@ -125,15 +132,10 @@ const styles = StyleSheet.create({
   mainView: {
     flex: 1,
     flexDirection: 'row',
-    borderWidth: 1,
-    borderColor: 'red',
     backgroundColor: colors.primary,
   },
   scrollViewContainer: {flex: 1, justifyContent: 'center'},
-  accountCounter: {
-    borderWidth: 1,
-    borderColor: 'cyan',
-  },
+  accountCounter: {},
   counter: {
     marginVertical: 16,
   },

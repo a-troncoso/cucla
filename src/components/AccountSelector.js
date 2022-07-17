@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
 import Avatar, {sizes} from 'components/Avatar';
 import {colors} from 'utils/colors';
-import AddUserImage from '../assets/add-user.svg';
+import AddUserImage from '../assets/add-user_solid.svg';
 
 const AccountSelector = ({
   accounts = [],
@@ -47,7 +47,7 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
       <Avatar
         image={users.find(user => user.id !== userIdLogged).imagePath}
         userName={users.find(user => user.id !== userIdLogged).name}
-        size={sizes.SMALL}
+        size={sizes.SMALL_MEDIUM}
         avatarContainerStyle={styles.avatar}
         onPressImage={onPressAvatar}
       />
@@ -75,9 +75,9 @@ const styles = StyleSheet.create({
     borderWidth: 0,
   },
   avatarHeader: {
-    width: 40,
-    height: 40,
-    color: colors.success,
+    width: 48,
+    height: 48,
+    color: colors.white,
   },
 });
 

@@ -4,12 +4,11 @@ import {
   Text,
   View,
   Modal,
-  useColorScheme,
   SafeAreaView,
   FlatList,
   Alert,
 } from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {colors} from 'utils/colors';
 import GestureRecognizer from 'react-native-swipe-gestures';
 import Avatar, {sizes} from '../../components/Avatar';
 import {toCurrencyFormat} from 'utils/number';
@@ -25,8 +24,6 @@ const ModalMovements = ({
   onRequestClose,
   onRemoveMovement,
 }) => {
-  const isDarkMode = useColorScheme() === 'dark';
-
   const handleSwipeRightMovement = (movementId, payingUserName) => {
     Alert.alert(
       'Eliminar movimiento',
@@ -58,10 +55,9 @@ const ModalMovements = ({
     <Modal
       visible={isVisible}
       animationType="slide"
-      style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
+      style={styles.mainView}
       onRequestClose={onRequestClose}>
-      <SafeAreaView
-        style={[isDarkMode ? styles.dark : styles.light, styles.listContainer]}>
+      <SafeAreaView style={styles.listContainer}>
         <FlatList
           data={movements}
           renderItem={renderItem}
@@ -104,28 +100,33 @@ const Movement = ({
 };
 
 const styles = StyleSheet.create({
-  light: {backgroundColor: Colors.lighter},
-  dark: {backgroundColor: Colors.darker},
   mainView: {backgroundColor: 'red'},
   listContainer: {
-    height: '100%',
+    backgroundColor: colors.primary,
+    flex: 1,
   },
   gestureRecognizer: {
     flex: 1,
   },
-  avatarContainer: {flex: 1},
   separator: {
-    borderColor: Colors.lighter,
+    borderColor: colors.disabled,
     borderWidth: 1,
+    backgroundColor: colors.disabled,
   },
   movementContainer: {
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 8,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
-  amount: {flex: 1, textAlign: 'center'},
+  amount: {
+    flex: 1,
+    color: colors.white,
+    fontSize: 24,
+    textAlign: 'center',
+  },
 });
 
 export default ModalMovements;
