@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
+import {StatusBar, StyleSheet, View, ScrollView, Text} from 'react-native';
 import {Avatar, Counter} from '../../components';
 import ModalUser from './ModalUser';
 import ModalMovements from './ModalMovements';
-import Theme from 'utils/colors';
+import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import {useAccount} from 'hooks/useAccount';
 
@@ -33,8 +33,6 @@ const Home = ({accountId = null}) => {
         fetchMovements();
       },
     );
-
-  const isDarkMode = useColorScheme() === 'dark';
 
   const handlePressImage = user => {
     setModalUserConfig(prevState => ({
@@ -80,8 +78,10 @@ const Home = ({accountId = null}) => {
   };
 
   return (
-    <View style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+    <ScrollView
+      style={styles.mainView}
+      contentContainerStyle={styles.scrollViewContainer}>
+      <StatusBar />
 
       <View style={styles.accountCounter}>
         <Avatar
@@ -90,8 +90,8 @@ const Home = ({accountId = null}) => {
           onPressImage={() => handlePressImage(account.users[0])}
         />
         <Counter
-          value={account.debt}
           style={styles.counter}
+          value={account.debt}
           onPress={handlePressCounter}
         />
         <Avatar
@@ -117,18 +117,22 @@ const Home = ({accountId = null}) => {
         onRequestClose={handleRequestCloseModal}
         onRemoveMovement={handleRemoveMovement}
       />
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  light: {backgroundColor: Theme.lighter},
-  dark: {backgroundColor: Theme.darker},
   mainView: {
     flex: 1,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderColor: 'red',
+    backgroundColor: colors.primary,
   },
+  scrollViewContainer: {flex: 1, justifyContent: 'center'},
   accountCounter: {
-    marginTop: 100,
+    borderWidth: 1,
+    borderColor: 'cyan',
   },
   counter: {
     marginVertical: 16,

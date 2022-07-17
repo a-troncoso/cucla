@@ -8,12 +8,20 @@ const colorsByStatus = {
   DEBT: 'debt',
 };
 
+export const sizes = {
+  SMALL: 'small',
+  MEDIUM: 'medium',
+  LARGE: 'large',
+  EXTRA_LARGE: 'extraLarge',
+};
+
 const Avatar = ({
   image = 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
   userName,
   status,
+  size = sizes.EXTRA_LARGE,
   containerStyle,
-  avatarContainerStyles,
+  avatarContainerStyle,
   onPressImage,
 }) => {
   return (
@@ -23,13 +31,14 @@ const Avatar = ({
           <Image
             source={{uri: image}}
             style={[
-              styles.avatarContainerStyles,
+              styles.avatar,
               styles[colorsByStatus[status]],
-              avatarContainerStyles,
+              styles[size],
+              avatarContainerStyle,
             ]}
           />
         ) : (
-          <View style={[styles.avatarContainerStyles, avatarContainerStyles]}>
+          <View style={[styles.avatarContainerStyle, avatarContainerStyle]}>
             {image}
           </View>
         )}
@@ -39,16 +48,39 @@ const Avatar = ({
   );
 };
 
+const stylesBySize = {
+  [sizes.SMALL]: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    borderWidth: 2,
+  },
+  [sizes.MEDIUM]: {
+    width: 96,
+    height: 96,
+    borderRadius: 48,
+    borderWidth: 4,
+  },
+  [sizes.LARGE]: {
+    width: 144,
+    height: 144,
+    borderRadius: 72,
+    borderWidth: 6,
+  },
+  [sizes.EXTRA_LARGE]: {
+    width: 192,
+    height: 192,
+    borderRadius: 96,
+    borderWidth: 8,
+  },
+};
+
 const styles = StyleSheet.create({
   mainView: {
     alignItems: 'center',
   },
   avatarBtn: {alignItems: 'center'},
-  avatarContainerStyles: {
-    width: 200,
-    height: 200,
-    borderRadius: 100,
-    borderWidth: 8,
+  avatar: {
     borderColor: 'black',
   },
   userName: {
@@ -67,6 +99,7 @@ const styles = StyleSheet.create({
   debt: {
     borderColor: colors.error,
   },
+  ...stylesBySize,
 });
 
 export default Avatar;

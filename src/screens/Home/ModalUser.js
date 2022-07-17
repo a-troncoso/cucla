@@ -1,18 +1,10 @@
 import React, {useRef} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  TextInput,
-  useColorScheme,
-} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {StyleSheet, Text, View, Modal, TextInput} from 'react-native';
+import {colors} from 'utils/colors';
 import {Avatar} from '../../components';
 
 const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
   const inputRef = useRef(null);
-  const isDarkMode = useColorScheme() === 'dark';
 
   const handleShowModal = () => {
     // TODO: fix this
@@ -23,7 +15,7 @@ const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
     <Modal
       visible={isVisible}
       animationType="slide"
-      style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
+      style={styles.mainView}
       onShow={handleShowModal}
       onRequestClose={onRequestClose}>
       <View style={styles.mainView}>
@@ -50,30 +42,32 @@ const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
 };
 
 const styles = StyleSheet.create({
-  light: {backgroundColor: Colors.lighter},
-  dark: {backgroundColor: Colors.darker},
   mainView: {
-    backgroundColor: Colors.darker,
+    backgroundColor: colors.primary,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
   avatar: {marginTop: 40, marginBottom: 20},
   inputView: {
+    marginTop: 32,
     position: 'relative',
     width: '75%',
     borderBottomWidth: 2,
-    borderBottomColor: Colors.lighter,
+    borderBottomColor: colors.black,
   },
   textInputPrefix: {
     position: 'absolute',
     bottom: 0,
-    fontSize: 48,
+    fontSize: 56,
     lineHeight: 68,
+    color: colors.white,
   },
   textInputAmount: {
-    left: 32,
-    fontSize: 32,
+    paddingLeft: 32,
+    fontSize: 40,
+    color: colors.white,
+    textAlign: 'center',
   },
 });
 

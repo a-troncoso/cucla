@@ -6,7 +6,7 @@ export default {
 export const colors = {
   white: '#fff',
   black: '#000',
-  gray1: '#d3d3d3',
+  disabled: '#9e9e9e',
   primary: '#01273D',
   secondary: '#1a3d50',
   success: '#00b300',

@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
-import Avatar from 'components/Avatar';
+import Avatar, {sizes} from 'components/Avatar';
 import {colors} from 'utils/colors';
 import AddUserImage from '../assets/add-user.svg';
 
@@ -29,7 +29,6 @@ const AccountSelector = ({
         keyExtractor={item => item.id}
         ListHeaderComponent={
           <Avatar
-            avatarContainerStyles={styles.avatarContainer}
             image={<AddUserImage style={styles.avatarHeader} />}
             onPressImage={onPressAddUser}
           />
@@ -46,10 +45,11 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
   return (
     <View style={styles.accountItemView}>
       <Avatar
-        avatarContainerStyles={styles.avatar}
         image={users.find(user => user.id !== userIdLogged).imagePath}
-        onPressImage={onPressAvatar}
         userName={users.find(user => user.id !== userIdLogged).name}
+        size={sizes.SMALL}
+        avatarContainerStyle={styles.avatar}
+        onPressImage={onPressAvatar}
       />
     </View>
   );
@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
   mainView: {
     paddingVertical: 12,
     paddingHorizontal: 16,
+    alignSelf: 'flex-end',
     flexDirection: 'row',
     backgroundColor: colors.secondary,
   },
@@ -71,17 +72,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1,
   },
   avatar: {
-    width: 56,
-    height: 56,
-    borderWidth: 0,
-  },
-  avatarContainer: {
-    width: 48,
-    height: 48,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 0,
     borderWidth: 0,
   },
   avatarHeader: {

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {thousandFormat} from 'utils/number';
+import {colors} from 'utils/colors';
 
 const Counter = ({value, style, onPress = () => {}}) => {
   return (
@@ -22,11 +23,11 @@ const styles = StyleSheet.create({
   currencySymbol: {
     fontSize: 74,
     marginRight: 10,
-    color: 'gray',
+    color: colors.white,
   },
   counterText: {
     fontSize: 60,
-    color: 'gray',
+    color: colors.white,
   },
 });
 

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, ScrollView} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import Home from 'screens/Home/Home';
 import AccountSelector from 'components/AccountSelector';
 import ModalAddUser from 'components/ModalAddUser';
@@ -50,9 +50,7 @@ const App = () => {
 
   return (
     <View style={styles.mainView}>
-      <ScrollView>
-        <Home accountId={selectedAccountId} />
-      </ScrollView>
+      <Home accountId={selectedAccountId} />
 
       <AccountSelector
         accounts={accounts}
@@ -71,7 +69,7 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
-  mainView: {justifyContent: 'space-around', flex: 1},
+  mainView: {flex: 1},
 });
 
 export default App;

@@ -1,11 +1,10 @@
 import React, {useRef} from 'react';
 import {StyleSheet, View, Modal, TextInput, useColorScheme} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {colors} from 'utils/colors';
 import Avatar from 'components/Avatar';
 
 const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
   const inputRef = useRef(null);
-  const isDarkMode = useColorScheme() === 'dark';
 
   const handleShowModal = () => {
     // TODO: fix this
@@ -26,7 +25,7 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
     <Modal
       visible={isVisible}
       animationType="slide"
-      style={[styles.mainView, isDarkMode ? styles.dark : styles.light]}
+      style={styles.mainView}
       onShow={handleShowModal}
       onRequestClose={onRequestClose}>
       <View style={styles.mainView}>
@@ -37,6 +36,8 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
             onSubmitEditing={({nativeEvent}) => handleSubmit(nativeEvent.text)}
             ref={inputRef}
             blurOnSubmit={false}
+            placeholder="Nombre del usuario"
+            placeholderTextColor={colors.disabled}
             autoFocus
           />
         </View>
@@ -46,30 +47,23 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
 };
 
 const styles = StyleSheet.create({
-  light: {backgroundColor: Colors.lighter},
-  dark: {backgroundColor: Colors.darker},
   mainView: {
-    backgroundColor: Colors.darker,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: colors.primary,
   },
   avatar: {marginTop: 40, marginBottom: 20},
   inputView: {
-    position: 'relative',
-    width: '75%',
+    width: 300,
+    marginTop: 32,
     borderBottomWidth: 2,
-    borderBottomColor: Colors.lighter,
-  },
-  textInputPrefix: {
-    position: 'absolute',
-    bottom: 0,
-    fontSize: 48,
-    lineHeight: 68,
+    borderBottomColor: colors.white,
   },
   textInputAmount: {
     textAlign: 'center',
     fontSize: 32,
+    color: colors.white,
   },
 });
 
