@@ -9,6 +9,6 @@ export const colors = {
   disabled: '#9e9e9e',
   primary: '#01273D',
   secondary: '#1a3d50',
-  success: '#00b300',
-  error: '#ff0000',
+  success: '#245723',
+  error: '#66282e',
 };

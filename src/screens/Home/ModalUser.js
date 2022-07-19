@@ -1,7 +1,7 @@
 import React, {useRef} from 'react';
 import {StyleSheet, Text, View, Modal, TextInput} from 'react-native';
 import {colors} from 'utils/colors';
-import {Avatar} from '../../components';
+import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
 
 const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
   const inputRef = useRef(null);
@@ -19,11 +19,7 @@ const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
       onShow={handleShowModal}
       onRequestClose={onRequestClose}>
       <View style={styles.mainView}>
-        <Avatar
-          status={user.status}
-          image={user.imagePath}
-          style={styles.avatar}
-        />
+        <Avatar status={AVATAR_STATUS.inFavor} image={user.imagePath} />
 
         <View style={styles.inputView}>
           <Text style={styles.textInputPrefix}>$</Text>
@@ -48,13 +44,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  avatar: {marginTop: 40, marginBottom: 20},
   inputView: {
     marginTop: 32,
     position: 'relative',
     width: '75%',
     borderBottomWidth: 2,
-    borderBottomColor: colors.black,
+    borderBottomColor: colors.white,
   },
   textInputPrefix: {
     position: 'absolute',
@@ -64,7 +59,7 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   textInputAmount: {
-    paddingLeft: 32,
+    paddingLeft: 40,
     fontSize: 40,
     color: colors.white,
     textAlign: 'center',

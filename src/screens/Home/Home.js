@@ -1,16 +1,12 @@
 import React, {useState} from 'react';
 import {StatusBar, StyleSheet, View, ScrollView, Alert} from 'react-native';
-import {Avatar, Counter} from '../../components';
+import {Counter} from '../../components';
+import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
 import ModalUser from './ModalUser';
 import ModalMovements from './ModalMovements';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import {useAccount} from 'hooks/useAccount';
-
-const AVATAR_STATUS = {
-  IN_FAVOR: 'IN_FAVOR',
-  DEBT: 'DEBT',
-};
 
 const Home = ({accountId = null}) => {
   const [modalUserConfig, setModalUserConfig] = useState({
@@ -57,7 +53,7 @@ const Home = ({accountId = null}) => {
 
   const handlePressCounter = () => {
     if (movements.length === 0)
-      Alert.alert('Movimientos', `No tenemos movimientos para este usuario`, [
+      Alert.alert('Sin movimientos', `No tenemos movimientos en esta cuenta`, [
         {
           text: 'Ok',
         },
@@ -92,7 +88,7 @@ const Home = ({accountId = null}) => {
 
       <View style={styles.accountCounter}>
         <Avatar
-          status={AVATAR_STATUS.IN_FAVOR}
+          status={AVATAR_STATUS.inFavor}
           image={account.users[0]?.imagePath}
           onPressImage={() => handlePressImage(account.users[0])}
         />
@@ -103,7 +99,7 @@ const Home = ({accountId = null}) => {
         />
         <Avatar
           status={
-            account.debt === 0 ? AVATAR_STATUS.IN_FAVOR : AVATAR_STATUS.DEBT
+            account.debt === 0 ? AVATAR_STATUS.inFavor : AVATAR_STATUS.debt
           }
           image={account.users[1]?.imagePath}
           onPressImage={() => handlePressImage(account.users[1])}

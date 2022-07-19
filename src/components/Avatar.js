@@ -2,9 +2,9 @@ import React from 'react';
 import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
 import {colors} from 'utils/colors';
 
-const colorsByStatus = {
-  IN_FAVOR: 'inFavor',
-  DEBT: 'debt',
+export const AVATAR_STATUS = {
+  inFavor: 'inFavor',
+  debt: 'debt',
 };
 
 export const sizes = {
@@ -32,7 +32,7 @@ const Avatar = ({
             source={{uri: image}}
             style={[
               styles.avatar,
-              styles[colorsByStatus[status]],
+              styles[AVATAR_STATUS[status]],
               styles[size],
               avatarContainerStyle,
             ]}
@@ -53,31 +53,26 @@ const stylesBySize = {
     width: 48,
     height: 48,
     borderRadius: 24,
-    borderWidth: 2,
   },
   [sizes.SMALL_MEDIUM]: {
     width: 72,
     height: 72,
     borderRadius: 36,
-    borderWidth: 3,
   },
   [sizes.MEDIUM]: {
     width: 96,
     height: 96,
     borderRadius: 48,
-    borderWidth: 4,
   },
   [sizes.LARGE]: {
     width: 144,
     height: 144,
     borderRadius: 72,
-    borderWidth: 6,
   },
   [sizes.EXTRA_LARGE]: {
     width: 192,
     height: 192,
     borderRadius: 96,
-    borderWidth: 8,
   },
 };
 
@@ -87,17 +82,18 @@ const styles = StyleSheet.create({
   },
   avatarBtn: {alignItems: 'center'},
   avatar: {
-    borderColor: 'black',
+    borderWidth: 2,
   },
   userName: {
     width: '100%',
     textAlign: 'center',
     position: 'absolute',
     bottom: 0,
-    lineHeight: 12,
     fontSize: 10,
-    backgroundColor: colors.black,
+    letterSpacing: 0.5,
+    backgroundColor: colors.secondary,
     color: colors.white,
+    fontWeight: 'bold',
   },
   inFavor: {
     borderColor: colors.success,

@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import {colors} from 'utils/colors';
 import GestureRecognizer from 'react-native-swipe-gestures';
-import Avatar, {sizes} from '../../components/Avatar';
+import Avatar, {sizes, AVATAR_STATUS} from '../../components/Avatar';
 import {toCurrencyFormat} from 'utils/number';
 
 const gestureRecognizerConfig = {
@@ -82,14 +82,14 @@ const Movement = ({
       onSwipeRight={onSwipeRight}>
       <View style={styles.movementContainer}>
         <Avatar
-          status="IN_FAVOR"
+          status={AVATAR_STATUS.inFavor}
           image={payingUserImage}
           containerStyle={styles.avatarContainer}
           size={sizes.SMALL}
         />
         <Text style={styles.amount}>{toCurrencyFormat(amount)}</Text>
         <Avatar
-          status="DEBT"
+          status={AVATAR_STATUS.debt}
           containerStyle={styles.avatarContainer}
           image={debtUserImagePath}
           size={sizes.SMALL}

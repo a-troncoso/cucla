@@ -34,6 +34,8 @@ const App = () => {
   };
 
   const handleSubmitAddUser = ({name, imagePath}) => {
+    // console.log('{name, imagePath}', {name, imagePath});
+    // {"code": 0, "message": "NOT NULL constraint failed: user_account.id (code 1299 SQLITE_CONSTRAINT_NOTNULL)"}
     registerUser({name, imagePath});
     setModalAddUser(prev => ({
       ...prev,

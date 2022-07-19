@@ -1,10 +1,12 @@
-import React, {useRef} from 'react';
-import {StyleSheet, View, Modal, TextInput, useColorScheme} from 'react-native';
+import React, {useRef, useState} from 'react';
+import {StyleSheet, View, Modal, TextInput} from 'react-native';
 import {colors} from 'utils/colors';
 import Avatar from 'components/Avatar';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
 const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
   const inputRef = useRef(null);
+  const [newImage, setNewImage] = useState();
 
   const handleShowModal = () => {
     // TODO: fix this
@@ -16,8 +18,21 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
 
     onSubmit({
       name: text,
-      imagePath:
-        'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
+      imagePath: newImage,
+    });
+  };
+
+  const handleLaunchImageLibrary = () => {
+    let options = {
+      storageOptions: {
+        skipBackup: true,
+        path: 'images',
+      },
+    };
+    launchCamera(options, response => {
+      // const image = response.assets.length > 0 ? response.assets[0].uri : null;
+      // console.log('response', JSON.stringify(response));
+      setNewImage();
     });
   };
 
@@ -25,11 +40,10 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
     <Modal
       visible={isVisible}
       animationType="slide"
-      style={styles.mainView}
       onShow={handleShowModal}
       onRequestClose={onRequestClose}>
       <View style={styles.mainView}>
-        <Avatar style={styles.avatar} />
+        <Avatar image={newImage} onPressImage={handleLaunchImageLibrary} />
         <View style={styles.inputView}>
           <TextInput
             style={styles.textInputAmount}
@@ -53,7 +67,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.primary,
   },
-  avatar: {marginTop: 40, marginBottom: 20},
   inputView: {
     width: 300,
     marginTop: 32,

@@ -57,8 +57,8 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    paddingVertical: 12,
-    paddingHorizontal: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
     alignSelf: 'flex-end',
     flexDirection: 'row',
     backgroundColor: colors.secondary,
