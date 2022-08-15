@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {StatusBar, StyleSheet, View, ScrollView, Alert} from 'react-native';
+import {
+  StatusBar,
+  StyleSheet,
+  View,
+  ScrollView,
+  Alert,
+  Text,
+} from 'react-native';
 import {Counter} from '../../components';
 import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
 import ModalUser from './ModalUser';
@@ -87,23 +94,36 @@ const Home = ({accountId = null}) => {
       <StatusBar backgroundColor={colors.primary} />
 
       <View style={styles.accountCounter}>
-        <Avatar
-          status={AVATAR_STATUS.inFavor}
-          image={account.users[0]?.imagePath}
-          onPressImage={() => handlePressImage(account.users[0])}
-        />
-        <Counter
-          style={styles.counter}
-          value={account.debt}
-          onPress={handlePressCounter}
-        />
-        <Avatar
-          status={
-            account.debt === 0 ? AVATAR_STATUS.inFavor : AVATAR_STATUS.debt
-          }
-          image={account.users[1]?.imagePath}
-          onPressImage={() => handlePressImage(account.users[1])}
-        />
+        {account.users.length === 2 ? (
+          <>
+            <Avatar
+              status={AVATAR_STATUS.inFavor}
+              image={account.users[0]?.imagePath}
+              onPressImage={() => handlePressImage(account.users[0])}
+            />
+            <Counter
+              style={styles.counter}
+              value={account.debt}
+              onPress={handlePressCounter}
+            />
+            <Avatar
+              status={
+                account.debt === 0 ? AVATAR_STATUS.inFavor : AVATAR_STATUS.debt
+              }
+              image={account.users[1]?.imagePath}
+              onPressImage={() => handlePressImage(account.users[1])}
+            />
+          </>
+        ) : (
+          <View style={styles.emptyAccount}>
+            <Text style={styles.emptyAccountText}>
+              Aún no has agregado usuarios
+            </Text>
+            <Text style={styles.emptyAccountText}>
+              Presiona en el ícono agregar usuario
+            </Text>
+          </View>
+        )}
       </View>
 
       <ModalUser
@@ -134,6 +154,12 @@ const styles = StyleSheet.create({
   accountCounter: {},
   counter: {
     marginVertical: 16,
+  },
+  emptyAccount: {},
+  emptyAccountText: {
+    fontSize: 20,
+    color: colors.white,
+    textAlign: 'center',
   },
 });
 

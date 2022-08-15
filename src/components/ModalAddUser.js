@@ -29,11 +29,7 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
         path: 'images',
       },
     };
-    launchCamera(options, response => {
-      // const image = response.assets.length > 0 ? response.assets[0].uri : null;
-      // console.log('response', JSON.stringify(response));
-      setNewImage();
-    });
+    launchCamera(options, response => setNewImage(response.assets[0].uri));
   };
 
   return (
@@ -47,12 +43,13 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
         <View style={styles.inputView}>
           <TextInput
             style={styles.textInputAmount}
-            onSubmitEditing={({nativeEvent}) => handleSubmit(nativeEvent.text)}
             ref={inputRef}
             blurOnSubmit={false}
             placeholder="Nombre del usuario"
             placeholderTextColor={colors.disabled}
+            textAlign="center"
             autoFocus
+            onSubmitEditing={({nativeEvent}) => handleSubmit(nativeEvent.text)}
           />
         </View>
       </View>
@@ -74,7 +71,6 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.white,
   },
   textInputAmount: {
-    textAlign: 'center',
     fontSize: 32,
     color: colors.white,
   },

@@ -4,7 +4,7 @@ import {useDatabase} from './useDatabase';
 export const useUsers = ({
   userIdLogged = null,
   onSuccessUserRegistration = null,
-}) => {
+} = {}) => {
   const {getDB, exQuery} = useDatabase();
   const [users, setUsers] = useState([]);
   const [userRegistrationResult, setUserRegistrationResult] = useState({
@@ -52,12 +52,23 @@ export const useUsers = ({
   };
 
   const registerUser = async ({name, imagePath}) => {
+    const image = imagePath ?? '';
+    const queryStatement = `INSERT INTO "user" ("name", "imagePath") VALUES ("${name}", "${image}")`;
+
     try {
-      const res = await exQuery(
-        getDB(),
-        `INSERT INTO "user" ("name", "imagePath") VALUES ("${name}", "${imagePath}");`,
-      );
+      const res = await exQuery(getDB(), queryStatement);
       setUserRegistrationResult(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const registerLoggedUser = async ({id, name, imagePath}) => {
+    const image = imagePath ?? '';
+    const queryStatement = `INSERT INTO user ("id", "name", "imagePath") VALUES (${id}, "${name}", "${image}")`;
+
+    try {
+      await exQuery(getDB(), queryStatement);
     } catch (e) {
       console.error(e);
     }
@@ -91,5 +102,5 @@ export const useUsers = ({
     fetchUsers();
   }, []);
 
-  return {users, registerUser};
+  return {users, registerUser, registerLoggedUser};
 };

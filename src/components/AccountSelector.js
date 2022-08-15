@@ -45,8 +45,8 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
   return (
     <View style={styles.accountItemView}>
       <Avatar
-        image={users.find(user => user.id !== userIdLogged).imagePath}
-        userName={users.find(user => user.id !== userIdLogged).name}
+        image={users.find(user => user.id !== userIdLogged)?.imagePath}
+        userName={users.find(user => user.id !== userIdLogged)?.name}
         size={sizes.SMALL_MEDIUM}
         avatarContainerStyle={styles.avatar}
         onPressImage={onPressAvatar}
@@ -57,10 +57,8 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    paddingVertical: 16,
+    height: 96,
     paddingHorizontal: 24,
-    alignSelf: 'flex-end',
-    flexDirection: 'row',
     backgroundColor: colors.secondary,
   },
   accountItemView: {

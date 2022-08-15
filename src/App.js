@@ -3,6 +3,7 @@ import {View, StyleSheet} from 'react-native';
 import Home from 'screens/Home/Home';
 import AccountSelector from 'components/AccountSelector';
 import ModalAddUser from 'components/ModalAddUser';
+import {useApp} from 'hooks/useApp';
 import {useAccount} from 'hooks/useAccount';
 import {useUsers} from 'hooks/useUsers';
 
@@ -10,6 +11,7 @@ const initialSelectedAccountId = 1;
 const userIdLogged = 1;
 
 const App = () => {
+  useApp({userIdLogged});
   const [modalAddUser, setModalAddUser] = useState({
     isVisible: false,
   });
@@ -34,8 +36,6 @@ const App = () => {
   };
 
   const handleSubmitAddUser = ({name, imagePath}) => {
-    // console.log('{name, imagePath}', {name, imagePath});
-    // {"code": 0, "message": "NOT NULL constraint failed: user_account.id (code 1299 SQLITE_CONSTRAINT_NOTNULL)"}
     registerUser({name, imagePath});
     setModalAddUser(prev => ({
       ...prev,

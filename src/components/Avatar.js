@@ -15,8 +15,11 @@ export const sizes = {
   EXTRA_LARGE: 'extraLarge',
 };
 
+const DEFAULT_AVATAR_IMAGE =
+  'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png';
+
 const Avatar = ({
-  image = 'https://cdn.icon-icons.com/icons2/1736/PNG/512/4043260-avatar-male-man-portrait_113269.png',
+  image = DEFAULT_AVATAR_IMAGE,
   userName,
   status,
   size = sizes.EXTRA_LARGE,
@@ -29,7 +32,7 @@ const Avatar = ({
       <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
         {typeof image === 'string' ? (
           <Image
-            source={{uri: image}}
+            source={{uri: image || DEFAULT_AVATAR_IMAGE}}
             style={[
               styles.avatar,
               styles[AVATAR_STATUS[status]],
