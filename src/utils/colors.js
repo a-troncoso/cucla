@@ -11,4 +11,5 @@ export const colors = {
   secondary: '#1a3d50',
   success: '#245723',
   error: '#66282e',
+  modalTransparency: 'rgba(0, 0, 0, 0.95)',
 };
