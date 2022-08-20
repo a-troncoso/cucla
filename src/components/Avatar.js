@@ -27,9 +27,11 @@ const Avatar = ({
   avatarContainerStyle,
   onPressImage,
 }) => {
+  const AvatarContainer = onPressImage ? TouchableOpacity : View;
+
   return (
     <View style={[styles.mainView, containerStyle]}>
-      <TouchableOpacity style={styles.avatarBtn} onPress={onPressImage}>
+      <AvatarContainer style={styles.avatarBtn} onPress={onPressImage}>
         {typeof image === 'string' ? (
           <Image
             source={{uri: image || DEFAULT_AVATAR_IMAGE}}
@@ -46,7 +48,7 @@ const Avatar = ({
           </View>
         )}
         {userName && <Text style={styles.userName}>{userName}</Text>}
-      </TouchableOpacity>
+      </AvatarContainer>
     </View>
   );
 };
