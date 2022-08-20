@@ -106,7 +106,6 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
               placeholder="Nombre del usuario"
               placeholderTextColor={colors.disabled}
               textAlign="center"
-              autoFocus
               onSubmitEditing={({nativeEvent}) =>
                 handleSubmit(nativeEvent.text)
               }

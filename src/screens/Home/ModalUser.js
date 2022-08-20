@@ -7,7 +7,6 @@ const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
   const inputRef = useRef(null);
 
   const handleShowModal = () => {
-    // TODO: fix this
     inputRef.current.focus();
   };
 
@@ -29,7 +28,6 @@ const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
             onSubmitEditing={onSubmitAmount}
             ref={inputRef}
             blurOnSubmit={false}
-            autoFocus
           />
         </View>
       </View>
