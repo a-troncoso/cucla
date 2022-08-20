@@ -23,7 +23,7 @@ const AccountSelector = ({
   return (
     <View style={styles.mainView}>
       <FlatList
-        contentContainerStyle={{alignItems: 'center'}}
+        contentContainerStyle={styles.listContentContainer}
         data={accounts}
         renderItem={renderItem}
         keyExtractor={item => item.id}
@@ -33,7 +33,7 @@ const AccountSelector = ({
             onPressImage={onPressAddUser}
           />
         }
-        ListHeaderComponentStyle={{marginRight: 16}}
+        ListHeaderComponentStyle={styles.listHeaderComponent}
         showsHorizontalScrollIndicator={false}
         horizontal
       />
@@ -61,6 +61,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     backgroundColor: colors.secondary,
   },
+  listContentContainer: {alignItems: 'center'},
   accountItemView: {
     paddingHorizontal: 12,
     justifyContent: 'center',
@@ -77,6 +78,7 @@ const styles = StyleSheet.create({
     height: 48,
     color: colors.white,
   },
+  listHeaderComponent: {marginRight: 16},
 });
 
 export default AccountSelector;

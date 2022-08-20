@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  StatusBar,
-  StyleSheet,
-  View,
-  ScrollView,
-  Alert,
-  Text,
-} from 'react-native';
+import {StatusBar, StyleSheet, View, Alert, Text} from 'react-native';
 import {Counter} from '../../components';
 import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
 import ModalUser from './ModalUser';
@@ -88,14 +81,12 @@ const Home = ({accountId = null}) => {
   };
 
   return (
-    <ScrollView
-      style={styles.mainView}
-      contentContainerStyle={styles.scrollViewContainer}>
+    <View style={styles.mainView}>
       <StatusBar backgroundColor={colors.primary} />
 
       <View style={styles.accountCounter}>
         {account.users.length === 2 ? (
-          <>
+          <View>
             <Avatar
               status={AVATAR_STATUS.inFavor}
               image={account.users[0]?.imagePath}
@@ -113,7 +104,7 @@ const Home = ({accountId = null}) => {
               image={account.users[1]?.imagePath}
               onPressImage={() => handlePressImage(account.users[1])}
             />
-          </>
+          </View>
         ) : (
           <View style={styles.emptyAccount}>
             <Text style={styles.emptyAccountText}>
@@ -140,18 +131,24 @@ const Home = ({accountId = null}) => {
         onRequestClose={handleRequestCloseModal}
         onRemoveMovement={handleRemoveMovement}
       />
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   mainView: {
+    // borderWidth: 1,
+    // borderColor: 'yellow',
     flex: 1,
     flexDirection: 'row',
+    justifyContent: 'center',
     backgroundColor: colors.primary,
   },
-  scrollViewContainer: {flex: 1, justifyContent: 'center'},
-  accountCounter: {},
+  accountCounter: {
+    // borderWidth: 1,
+    // borderColor: 'green',
+    justifyContent: 'center',
+  },
   counter: {
     marginVertical: 16,
   },
