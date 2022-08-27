@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   },
   avatarBtn: {alignItems: 'center'},
   avatar: {
-    borderWidth: 2,
+    borderWidth: 4,
   },
   userName: {
     width: '100%',
