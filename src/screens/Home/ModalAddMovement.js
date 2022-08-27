@@ -3,7 +3,12 @@ import {StyleSheet, Text, View, Modal, TextInput} from 'react-native';
 import {colors} from 'utils/colors';
 import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
 
-const ModalUser = ({user, isVisible, onSubmitAmount, onRequestClose}) => {
+const ModalAddMovement = ({
+  user,
+  isVisible,
+  onSubmitAmount,
+  onRequestClose,
+}) => {
   const inputRef = useRef(null);
 
   const handleShowModal = () => {
@@ -64,4 +69,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalUser;
+export default ModalAddMovement;

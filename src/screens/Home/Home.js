@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StatusBar, StyleSheet, View, Alert, Text} from 'react-native';
 import {Counter} from '../../components';
 import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
-import ModalUser from './ModalUser';
+import ModalAddMovement from './ModalAddMovement';
 import ModalMovements from './ModalMovements';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
@@ -117,7 +117,7 @@ const Home = ({accountId = null}) => {
         )}
       </View>
 
-      <ModalUser
+      <ModalAddMovement
         user={modalUserConfig.user}
         isVisible={modalUserConfig.isVisible}
         onSubmitAmount={handleSubmitAmount}
