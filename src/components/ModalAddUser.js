@@ -1,16 +1,9 @@
 import React, {useRef, useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  Modal,
-  TextInput,
-  FlatList,
-  Text,
-  TouchableOpacity,
-} from 'react-native';
-import {colors} from 'utils/colors';
-import Avatar from 'components/Avatar';
+import {StyleSheet, View, Modal, TextInput, FlatList} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import Avatar from 'components/Avatar';
+import Button from 'components/Button';
+import {colors} from 'utils/colors';
 
 const IMAGE_SOURCE_OPTIONS = [
   {
@@ -22,18 +15,6 @@ const IMAGE_SOURCE_OPTIONS = [
     title: 'Galería',
   },
 ];
-
-const ImageSourceOption = ({title, onPress}) => (
-  <View>
-    <TouchableOpacity
-      style={stylesModalImageSourceOptions.sourceOptionTouchable}
-      onPress={onPress}>
-      <Text style={stylesModalImageSourceOptions.sourceOptionTouchableText}>
-        {title}
-      </Text>
-    </TouchableOpacity>
-  </View>
-);
 
 const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
   const inputRef = useRef(null);
@@ -76,10 +57,9 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
   };
 
   const renderImageSourceOption = ({item}) => (
-    <ImageSourceOption
-      title={item.title}
-      onPress={() => handlePressImageSourceOption({id: item.id})}
-    />
+    <Button onPress={() => handlePressImageSourceOption({id: item.id})}>
+      {item.title}
+    </Button>
   );
 
   const handleRequestCloseModalImageSourceOptions = () => {
@@ -120,7 +100,7 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
         statusBarTranslucent
         onRequestClose={handleRequestCloseModalImageSourceOptions}>
         <View style={stylesModalImageSourceOptions.topPortion} />
-        <View style={stylesModalImageSourceOptions.contentContainer}>
+        <View style={stylesModalImageSourceOptions.centerPortion}>
           <FlatList
             contentContainerStyle={
               stylesModalImageSourceOptions.sourceOptionsContainer
@@ -164,26 +144,16 @@ const stylesModalImageSourceOptions = StyleSheet.create({
   topPortion: {
     flex: 1,
     justifyContent: 'flex-start',
-    backgroundColor: colors.modalTransparency,
+    backgroundColor: colors.modalBackdrop,
   },
-  contentContainer: {
+  centerPortion: {
     flex: 1,
-    backgroundColor: colors.modalTransparency,
+    backgroundColor: colors.modalBackdrop,
   },
   sourceOptionsContainer: {
     flex: 1,
     justifyContent: 'center',
     marginHorizontal: 16,
-  },
-  sourceOptionTouchable: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    backgroundColor: colors.secondary,
-  },
-  sourceOptionTouchableText: {
-    fontSize: 24,
-    textAlign: 'center',
-    color: colors.white,
   },
   sourceOptionsSeparator: {
     height: 24,
@@ -191,7 +161,7 @@ const stylesModalImageSourceOptions = StyleSheet.create({
   bottomPortion: {
     flex: 1,
     justifyContent: 'flex-end',
-    backgroundColor: colors.modalTransparency,
+    backgroundColor: colors.modalBackdrop,
   },
 });
 
