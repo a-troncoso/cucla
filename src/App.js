@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Home from 'screens/Home/Home';
 import AccountSelector from 'components/AccountSelector';
-import ModalAddUser from 'components/ModalAddUser';
+import ModalAddUser from 'components/modalAddUser/ModalAddUser';
 import {useApp} from 'hooks/useApp';
 import {useAccount} from 'hooks/useAccount';
 import {useUsers} from 'hooks/useUsers';
@@ -35,8 +35,8 @@ const App = () => {
     }));
   };
 
-  const handleSubmitAddUser = ({name, imagePath}) => {
-    registerUser({name, imagePath});
+  const handleSubmitAddUser = ({userName, imagePath}) => {
+    registerUser({userName, imagePath});
     setModalAddUser(prev => ({
       ...prev,
       isVisible: false,
@@ -64,6 +64,7 @@ const App = () => {
       <ModalAddUser
         isVisible={modalAddUser.isVisible}
         onSubmit={handleSubmitAddUser}
+        onAddUser={handleSubmitAddUser}
         onRequestClose={handleRequestCloseModal}
       />
     </View>

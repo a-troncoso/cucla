@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StatusBar, StyleSheet, View, Alert, Text} from 'react-native';
 import {Counter} from '../../components';
 import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
-import ModalAddMovement from './ModalAddMovement';
+import ModalAddMovement from './modalAddMovement/ModalAddMovement';
 import ModalMovements from './ModalMovements';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
@@ -38,14 +38,14 @@ const Home = ({accountId = null}) => {
     }));
   };
 
-  const handleSubmitAmount = ({nativeEvent}) => {
+  const handleAddMovement = amount => {
     setModalUserConfig(prevState => ({
       ...prevState,
       isVisible: false,
     }));
 
     registerMovement({
-      amount: nativeEvent.text,
+      amount,
       payingUserId: modalUserConfig.user.id,
       debtUserId: account.users.find(u => u.id !== modalUserConfig.user.id).id,
     });
@@ -120,14 +120,13 @@ const Home = ({accountId = null}) => {
       <ModalAddMovement
         user={modalUserConfig.user}
         isVisible={modalUserConfig.isVisible}
-        onSubmitAmount={handleSubmitAmount}
+        onAddMovement={handleAddMovement}
         onRequestClose={handleRequestCloseModal}
       />
 
       <ModalMovements
         movements={movements}
         isVisible={modalMovements.isVisible}
-        onSubmit={handleSubmitAmount}
         onRequestClose={handleRequestCloseModal}
         onRemoveMovement={handleRemoveMovement}
       />
@@ -137,16 +136,12 @@ const Home = ({accountId = null}) => {
 
 const styles = StyleSheet.create({
   mainView: {
-    // borderWidth: 1,
-    // borderColor: 'yellow',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     backgroundColor: colors.primary,
   },
   accountCounter: {
-    // borderWidth: 1,
-    // borderColor: 'green',
     justifyContent: 'center',
   },
   counter: {

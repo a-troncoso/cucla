@@ -51,9 +51,9 @@ export const useUsers = ({
     }
   };
 
-  const registerUser = async ({name, imagePath}) => {
+  const registerUser = async ({userName, imagePath}) => {
     const image = imagePath ?? '';
-    const queryStatement = `INSERT INTO "user" ("name", "imagePath") VALUES ("${name}", "${image}")`;
+    const queryStatement = `INSERT INTO "user" ("name", "imagePath") VALUES ("${userName}", "${image}")`;
 
     try {
       const res = await exQuery(getDB(), queryStatement);

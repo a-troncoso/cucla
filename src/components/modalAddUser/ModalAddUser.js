@@ -3,6 +3,7 @@ import {StyleSheet, View, Modal, TextInput, FlatList} from 'react-native';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+import useModalAddUser from './useModalAddUser';
 import {colors} from 'utils/colors';
 
 const IMAGE_SOURCE_OPTIONS = [
@@ -16,55 +17,19 @@ const IMAGE_SOURCE_OPTIONS = [
   },
 ];
 
-const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
-  const inputRef = useRef(null);
-  const [newImage, setNewImage] = useState();
-  const [
+const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
+  const {
+    userName,
+    newImage,
+    inputRef,
+    isDisabledSaveBtn,
+    handleShowModal,
+    handleAddUser,
+    handleChangeUserName,
+    renderImageSourceOption,
+    handleRequestCloseModalImageSourceOptions,
     isVisibleModalImageSourceOptions,
-    setIsVisibleModalImageSourceOptions,
-  ] = useState(false);
-
-  const handleShowModal = () => {
-    inputRef.current.focus();
-  };
-
-  const handleSubmit = text => {
-    if (!text) return;
-
-    onSubmit({
-      name: text,
-      imagePath: newImage,
-    });
-  };
-
-  const handlePressImageSourceOption = ({id}) => {
-    const options = {
-      storageOptions: {
-        includeBase64: false,
-      },
-    };
-    const launcherFunctionByOptionId = {
-      1: launchCamera,
-      2: launchImageLibrary,
-    };
-
-    launcherFunctionByOptionId[id](options, response => {
-      setIsVisibleModalImageSourceOptions(false);
-      if (response.didCancel) return;
-      setNewImage(response.assets[0].uri);
-      inputRef.current.focus();
-    });
-  };
-
-  const renderImageSourceOption = ({item}) => (
-    <Button onPress={() => handlePressImageSourceOption({id: item.id})}>
-      {item.title}
-    </Button>
-  );
-
-  const handleRequestCloseModalImageSourceOptions = () => {
-    setIsVisibleModalImageSourceOptions(false);
-  };
+  } = useModalAddUser({onAddUser});
 
   return (
     <View>
@@ -74,22 +39,29 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
         onShow={handleShowModal}
         onRequestClose={onRequestClose}>
         <View style={styles.mainView}>
-          <Avatar
-            image={newImage}
-            onPressImage={() => setIsVisibleModalImageSourceOptions(true)}
-          />
-          <View style={styles.inputView}>
-            <TextInput
-              style={styles.textInputAmount}
-              ref={inputRef}
-              blurOnSubmit={false}
-              placeholder="Nombre del usuario"
-              placeholderTextColor={colors.disabled}
-              textAlign="center"
-              onSubmitEditing={({nativeEvent}) =>
-                handleSubmit(nativeEvent.text)
-              }
+          <View style={styles.topPortion}>
+            <Avatar
+              image={newImage}
+              onPressImage={() => setIsVisibleModalImageSourceOptions(true)}
             />
+            <View style={styles.inputView}>
+              <TextInput
+                style={styles.textInputAmount}
+                ref={inputRef}
+                blurOnSubmit={false}
+                placeholder="Nombre del usuario"
+                placeholderTextColor={colors.disabled}
+                textAlign="center"
+                value={userName}
+                onChangeText={handleChangeUserName}
+                onSubmitEditing={handleAddUser}
+              />
+            </View>
+          </View>
+          <View style={styles.bottomPortion}>
+            <Button onPress={handleAddUser} disabled={isDisabledSaveBtn}>
+              Guardar
+            </Button>
           </View>
         </View>
       </Modal>
@@ -124,9 +96,18 @@ const ModalAddUser = ({isVisible, onSubmit, onRequestClose}) => {
 const styles = StyleSheet.create({
   mainView: {
     flex: 1,
+    paddingBottom: 48,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: colors.primary,
+  },
+  topPortion: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  bottomPortion: {
+    alignItems: 'center',
   },
   inputView: {
     width: 300,
