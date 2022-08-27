@@ -1,12 +1,12 @@
 import React, {useState} from 'react';
 import {StatusBar, StyleSheet, View, Alert, Text} from 'react-native';
-import {Counter} from '../../components';
-import Avatar, {AVATAR_STATUS} from '../../components/Avatar';
-import ModalAddMovement from './modalAddMovement/ModalAddMovement';
-import ModalMovements from './ModalMovements';
+import Counter from 'components/Counter';
+import Avatar, {AVATAR_STATUS} from 'components/Avatar';
+import ModalAddMovement from 'components/modalAddMovement/ModalAddMovement';
+import ModalMovements from 'components/ModalMovements';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
-import {useAccount} from 'hooks/useAccount';
+import useAccount from 'hooks/useAccount';
 
 const Home = ({accountId = null}) => {
   const [modalUserConfig, setModalUserConfig] = useState({

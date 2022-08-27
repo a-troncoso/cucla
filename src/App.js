@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
-import Home from 'screens/Home/Home';
+import Home from 'screens/Home';
 import AccountSelector from 'components/AccountSelector';
 import ModalAddUser from 'components/modalAddUser/ModalAddUser';
 import {useApp} from 'hooks/useApp';
-import {useAccount} from 'hooks/useAccount';
+import useAccount from 'hooks/useAccount';
 import {useUsers} from 'hooks/useUsers';
 
 const initialSelectedAccountId = 1;

@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDatabase} from './useDatabase';
 import {groupBy} from 'utils/array';
 
-export const useAccount = ({accountId = null}) => {
+const useAccount = ({accountId = null}) => {
   const {getDB, exQuery} = useDatabase();
   const [accounts, setAccounts] = useState([]);
   const [account, setAccount] = useState({users: [], debtUser: {}, debt: 0});
@@ -70,3 +70,5 @@ export const useAccount = ({accountId = null}) => {
 
   return {accounts, account, findAccounts, findAccountById};
 };
+
+export default useAccount;

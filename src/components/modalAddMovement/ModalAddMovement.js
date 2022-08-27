@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, Text, View, Modal, TextInput} from 'react-native';
-import Avatar, {AVATAR_STATUS} from '../../../components/Avatar';
+import Avatar, {AVATAR_STATUS} from 'components/Avatar';
 import Button from 'components/Button';
 import useModalAddMovement from './useModalAddMovement';
 import {colors} from 'utils/colors';
