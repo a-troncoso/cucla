@@ -7,6 +7,7 @@ const MOVEMENT_OPTIONS = [
   {
     id: 1,
     title: 'Cambiar monto',
+    disabled: true,
   },
   {
     id: 2,

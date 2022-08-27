@@ -8,6 +8,15 @@ import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import useAccount from 'hooks/useAccount';
 
+const EmptyUsers = () => (
+  <View>
+    <Text style={styles.emptyAccountText}>Aún no has agregado usuarios</Text>
+    <Text style={styles.emptyAccountText}>
+      Presiona en el ícono agregar usuario
+    </Text>
+  </View>
+);
+
 const Home = ({accountId = null}) => {
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
@@ -106,14 +115,7 @@ const Home = ({accountId = null}) => {
             />
           </View>
         ) : (
-          <View style={styles.emptyAccount}>
-            <Text style={styles.emptyAccountText}>
-              Aún no has agregado usuarios
-            </Text>
-            <Text style={styles.emptyAccountText}>
-              Presiona en el ícono agregar usuario
-            </Text>
-          </View>
+          <EmptyUsers />
         )}
       </View>
 
@@ -147,7 +149,6 @@ const styles = StyleSheet.create({
   counter: {
     marginVertical: 16,
   },
-  emptyAccount: {},
   emptyAccountText: {
     fontSize: 20,
     color: colors.white,

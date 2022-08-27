@@ -5,10 +5,18 @@ import {
   Modal,
   SafeAreaView,
   FlatList,
-  Alert,
+  Text,
 } from 'react-native';
 import MovementItem from 'components/MovementItem';
 import {colors} from 'utils/colors';
+
+const EmptyMovements = () => (
+  <View style={styles.emptyMovementsMainView}>
+    <Text style={styles.emptyMovementsText}>
+      No tenemos movimientos en esta cuenta
+    </Text>
+  </View>
+);
 
 const ModalMovements = ({
   isVisible,
@@ -29,22 +37,24 @@ const ModalMovements = ({
   };
 
   return (
-    <View>
-      <Modal
-        visible={isVisible}
-        animationType="slide"
-        style={styles.mainView}
-        onRequestClose={onRequestClose}>
-        <SafeAreaView style={styles.listContainer}>
+    <Modal
+      visible={isVisible}
+      animationType="slide"
+      style={styles.mainView}
+      onRequestClose={onRequestClose}>
+      <SafeAreaView style={styles.listContainer}>
+        {movements.length > 0 ? (
           <FlatList
             data={movements}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             ItemSeparatorComponent={() => <View style={styles.separator} />}
           />
-        </SafeAreaView>
-      </Modal>
-    </View>
+        ) : (
+          <EmptyMovements />
+        )}
+      </SafeAreaView>
+    </Modal>
   );
 };
 
@@ -63,6 +73,15 @@ const styles = StyleSheet.create({
     flex: 1,
     color: colors.white,
     fontSize: 24,
+    textAlign: 'center',
+  },
+  emptyMovementsMainView: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  emptyMovementsText: {
+    fontSize: 20,
+    color: colors.white,
     textAlign: 'center',
   },
 });
