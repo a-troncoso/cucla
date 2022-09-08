@@ -3,10 +3,10 @@ import {StyleSheet, View, Modal, TextInput} from 'react-native';
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
 import ModalImageSourceOptions from 'components/modalImageSourceOptions/ModalImageSourceOptions';
-import useModalAddUser from './useModalAddUser';
+import useModalUser from './useModalUser';
 import {colors} from 'utils/colors';
 
-const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
+const ModalUser = ({isVisible, onAddUser, onRequestClose}) => {
   const {
     userName,
     newImage,
@@ -19,7 +19,7 @@ const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
     handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
     handleSelectNewImage,
-  } = useModalAddUser({onAddUser});
+  } = useModalUser({onAddUser});
 
   return (
     <View>
@@ -90,4 +90,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ModalAddUser;
+export default ModalUser;

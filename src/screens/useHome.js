@@ -8,9 +8,19 @@ const useHome = () => {
     setIsVisibleModalUserOptions(true);
   };
 
+  const handleRequestCloseModalUserOptions = () => {
+    setIsVisibleModalUserOptions(false);
+  };
+
+  const handlePressOptionModalUserOptions = () => {
+    setIsVisibleModalUserOptions(false);
+  };
+
   return {
     isVisibleModalUserOptions,
     handleLongPressImage,
+    handleRequestCloseModalUserOptions,
+    handlePressOptionModalUserOptions,
   };
 };
 

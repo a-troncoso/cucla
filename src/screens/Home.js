@@ -20,14 +20,17 @@ const EmptyUsers = () => (
 );
 
 const Home = ({accountId = null}) => {
-  const {isVisibleModalUserOptions, handleLongPressImage} = useHome();
+  const {
+    isVisibleModalUserOptions,
+    handleLongPressImage,
+    handleRequestCloseModalUserOptions,
+    handlePressOptionModalUserOptions,
+  } = useHome();
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
   });
-  const [modalMovements, setModalMovements] = useState({
-    isVisible: false,
-  });
+  const [isVisibleModalMovements, setIsVisibleModalMovements] = useState(false);
   const {account, findAccountById} = useAccount({accountId});
   const {registerMovement, movements, fetchMovements, removeMovement} =
     useMovements(
@@ -70,11 +73,7 @@ const Home = ({accountId = null}) => {
           text: 'Ok',
         },
       ]);
-    else
-      setModalMovements(prevState => ({
-        ...prevState,
-        isVisible: true,
-      }));
+    else setIsVisibleModalMovements(true);
   };
 
   const handleRequestCloseModal = () => {
@@ -82,14 +81,14 @@ const Home = ({accountId = null}) => {
       ...prevState,
       isVisible: false,
     }));
-    setModalMovements(prevState => ({
-      ...prevState,
-      isVisible: false,
-    }));
   };
 
   const handleRemoveMovement = id => {
     removeMovement({id});
+  };
+
+  const handleRequestCloseModalMovements = () => {
+    setIsVisibleModalMovements(false);
   };
 
   return (
@@ -133,12 +132,16 @@ const Home = ({accountId = null}) => {
 
       <ModalMovements
         movements={movements}
-        isVisible={modalMovements.isVisible}
-        onRequestClose={handleRequestCloseModal}
+        isVisible={isVisibleModalMovements}
+        onRequestClose={handleRequestCloseModalMovements}
         onRemoveMovement={handleRemoveMovement}
       />
 
-      <ModalUserOptions isVisible={isVisibleModalUserOptions} />
+      <ModalUserOptions
+        isVisible={isVisibleModalUserOptions}
+        onRequestClose={handleRequestCloseModalUserOptions}
+        onPressOption={handlePressOptionModalUserOptions}
+      />
     </View>
   );
 };

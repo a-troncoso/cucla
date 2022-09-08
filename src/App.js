@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import Home from 'screens/Home';
 import AccountSelector from 'components/AccountSelector';
-import ModalAddUser from 'components/modalAddUser/ModalAddUser';
+import ModalUser from 'components/modalUser/ModalUser';
 import {useApp} from 'hooks/useApp';
 import useAccount from 'hooks/useAccount';
 import {useUsers} from 'hooks/useUsers';
@@ -12,9 +12,7 @@ const userIdLogged = 1;
 
 const App = () => {
   useApp({userIdLogged});
-  const [modalAddUser, setModalAddUser] = useState({
-    isVisible: false,
-  });
+  const [isVisibleModalUser, setIsVisibleModalUser] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(
     initialSelectedAccountId,
   );
@@ -29,25 +27,16 @@ const App = () => {
   };
 
   const handlePressAddUser = () => {
-    setModalAddUser(prev => ({
-      ...prev,
-      isVisible: true,
-    }));
+    setIsVisibleModalUser(true);
   };
 
   const handleSubmitAddUser = ({userName, imagePath}) => {
     registerUser({userName, imagePath});
-    setModalAddUser(prev => ({
-      ...prev,
-      isVisible: false,
-    }));
+    setIsVisibleModalUser(false);
   };
 
   const handleRequestCloseModal = () => {
-    setModalAddUser(prevState => ({
-      ...prevState,
-      isVisible: false,
-    }));
+    setIsVisibleModalUser(false);
   };
 
   return (
@@ -61,8 +50,8 @@ const App = () => {
         onPressAddUser={handlePressAddUser}
       />
 
-      <ModalAddUser
-        isVisible={modalAddUser.isVisible}
+      <ModalUser
+        isVisible={isVisibleModalUser}
         onSubmit={handleSubmitAddUser}
         onAddUser={handleSubmitAddUser}
         onRequestClose={handleRequestCloseModal}

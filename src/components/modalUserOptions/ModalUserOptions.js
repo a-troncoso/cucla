@@ -1,16 +1,17 @@
 import React from 'react';
 import {StyleSheet, View, Modal, FlatList} from 'react-native';
+import Button from 'components/Button';
 import useModalUserOptions from './useModalUserOptions';
 import {colors} from 'utils/colors';
 
 const USER_OPTIONS = [
   {
-    id: 1,
+    id: 0,
     title: 'Cambiar foto',
     disabled: true,
   },
   {
-    id: 2,
+    id: 1,
     title: 'Cambiar nombre',
   },
 ];
@@ -21,7 +22,15 @@ const ModalUserOptions = ({
   onRequestClose = () => {},
   onPressOption = () => {},
 }) => {
-  const {renderOption} = useModalUserOptions({isUser, onPressOption});
+  useModalUserOptions();
+
+  const renderOption = ({item}) => (
+    <Button
+      onPress={() => onPressOption({optionId: item.id})}
+      disabled={item.disabled}>
+      {item.title}
+    </Button>
+  );
 
   return (
     <Modal

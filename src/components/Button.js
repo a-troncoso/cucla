@@ -11,7 +11,13 @@ const Button = ({children, disabled = false, onPress = () => {}}) => {
       ]}
       disabled={disabled}
       onPress={onPress}>
-      <Text style={styles.buttonText}>{children}</Text>
+      <Text
+        style={[
+          styles.buttonText,
+          disabled ? styles.textButtonDisabled : styles.textButtonEnabled,
+        ]}>
+        {children}
+      </Text>
     </TouchableOpacity>
   );
 };
@@ -24,7 +30,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   buttonText: {
-    color: colors.white,
     fontSize: 24,
     lineHeight: 30,
     textAlign: 'center',
@@ -34,6 +39,12 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     backgroundColor: 'transparent',
+  },
+  textButtonEnabled: {
+    color: colors.white,
+  },
+  textButtonDisabled: {
+    color: colors.disabled,
   },
 });
 

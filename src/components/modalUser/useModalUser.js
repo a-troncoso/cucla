@@ -1,6 +1,6 @@
 import {useRef, useState, useMemo} from 'react';
 
-const useModalAddUser = ({onAddUser}) => {
+const useModalUser = ({onAddUser}) => {
   const inputRef = useRef(null);
   const [userName, setUserName] = useState('');
   const [newImage, setNewImage] = useState();
@@ -57,4 +57,4 @@ const useModalAddUser = ({onAddUser}) => {
   };
 };
 
-export default useModalAddUser;
+export default useModalUser;
