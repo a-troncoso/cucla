@@ -25,13 +25,17 @@ const Avatar = ({
   size = sizes.EXTRA_LARGE,
   containerStyle,
   avatarContainerStyle,
-  onPressImage,
+  onPress,
+  onLongPress,
 }) => {
-  const AvatarContainer = onPressImage ? TouchableOpacity : View;
+  const AvatarContainer = onPress || onLongPress ? TouchableOpacity : View;
 
   return (
     <View style={[styles.mainView, containerStyle]}>
-      <AvatarContainer style={styles.avatarBtn} onPress={onPressImage}>
+      <AvatarContainer
+        style={styles.avatarBtn}
+        onPress={onPress}
+        onLongPress={onLongPress}>
         {typeof image === 'string' ? (
           <Image
             source={{uri: image || DEFAULT_AVATAR_IMAGE}}

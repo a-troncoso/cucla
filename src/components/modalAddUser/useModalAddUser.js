@@ -8,6 +8,7 @@ const useModalAddUser = ({onAddUser}) => {
     isVisibleModalImageSourceOptions,
     setIsVisibleModalImageSourceOptions,
   ] = useState(false);
+
   const isDisabledSaveBtn = useMemo(() => !userName, [userName]);
 
   const handleShowModal = () => {
@@ -24,46 +25,35 @@ const useModalAddUser = ({onAddUser}) => {
     setUserName(value);
   };
 
-  const handlePressImageSourceOption = ({id}) => {
-    const options = {
-      storageOptions: {
-        includeBase64: false,
-      },
-    };
-    const launcherFunctionByOptionId = {
-      1: launchCamera,
-      2: launchImageLibrary,
-    };
-
-    launcherFunctionByOptionId[id](options, response => {
-      setIsVisibleModalImageSourceOptions(false);
-      if (response.didCancel) return;
-      setNewImage(response.assets[0].uri);
-      inputRef.current.focus();
-    });
+  const handlePressAvatar = () => {
+    setIsVisibleModalImageSourceOptions(true);
   };
-
-  const renderImageSourceOption = ({item}) => (
-    <Button onPress={() => handlePressImageSourceOption({id: item.id})}>
-      {item.title}
-    </Button>
-  );
 
   const handleRequestCloseModalImageSourceOptions = () => {
     setIsVisibleModalImageSourceOptions(false);
   };
 
+  const handleSelectNewImage = selectedImage => {
+    setIsVisibleModalImageSourceOptions(false);
+
+    if (selectedImage.didCancel) return;
+
+    setNewImage(selectedImage.assets[0].uri);
+    inputRef.current.focus();
+  };
+
   return {
     userName,
     newImage,
+    isVisibleModalImageSourceOptions,
     inputRef,
-    handleAddUser,
     isDisabledSaveBtn,
+    handleAddUser,
     handleShowModal,
     handleChangeUserName,
-    renderImageSourceOption,
+    handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
-    isVisibleModalImageSourceOptions,
+    handleSelectNewImage,
   };
 };
 

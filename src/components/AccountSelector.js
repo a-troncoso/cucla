@@ -30,7 +30,7 @@ const AccountSelector = ({
         ListHeaderComponent={
           <Avatar
             image={<AddUserImage style={styles.avatarHeader} />}
-            onPressImage={onPressAddUser}
+            onPress={onPressAddUser}
           />
         }
         ListHeaderComponentStyle={styles.listHeaderComponent}
@@ -49,7 +49,7 @@ const AccountItem = ({users, userIdLogged, onPressAvatar}) => {
         userName={users.find(user => user.id !== userIdLogged)?.name}
         size={sizes.SMALL_MEDIUM}
         avatarContainerStyle={styles.avatar}
-        onPressImage={onPressAvatar}
+        onPress={onPressAvatar}
       />
     </View>
   );

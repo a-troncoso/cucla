@@ -4,9 +4,11 @@ import Counter from 'components/Counter';
 import Avatar, {AVATAR_STATUS} from 'components/Avatar';
 import ModalAddMovement from 'components/modalAddMovement/ModalAddMovement';
 import ModalMovements from 'components/ModalMovements';
+import ModalUserOptions from 'components/modalUserOptions/ModalUserOptions';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import useAccount from 'hooks/useAccount';
+import useHome from './useHome';
 
 const EmptyUsers = () => (
   <View>
@@ -18,6 +20,7 @@ const EmptyUsers = () => (
 );
 
 const Home = ({accountId = null}) => {
+  const {isVisibleModalUserOptions, handleLongPressImage} = useHome();
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
@@ -99,7 +102,8 @@ const Home = ({accountId = null}) => {
             <Avatar
               status={AVATAR_STATUS.inFavor}
               image={account.users[0]?.imagePath}
-              onPressImage={() => handlePressImage(account.users[0])}
+              onPress={() => handlePressImage(account.users[0])}
+              onLongPress={handleLongPressImage}
             />
             <Counter
               style={styles.counter}
@@ -111,7 +115,8 @@ const Home = ({accountId = null}) => {
                 account.debt === 0 ? AVATAR_STATUS.inFavor : AVATAR_STATUS.debt
               }
               image={account.users[1]?.imagePath}
-              onPressImage={() => handlePressImage(account.users[1])}
+              onPress={() => handlePressImage(account.users[1])}
+              onLongPress={handleLongPressImage}
             />
           </View>
         ) : (
@@ -132,6 +137,8 @@ const Home = ({accountId = null}) => {
         onRequestClose={handleRequestCloseModal}
         onRemoveMovement={handleRemoveMovement}
       />
+
+      <ModalUserOptions isVisible={isVisibleModalUserOptions} />
     </View>
   );
 };

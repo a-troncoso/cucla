@@ -1,34 +1,24 @@
-import React, {useRef, useState} from 'react';
-import {StyleSheet, View, Modal, TextInput, FlatList} from 'react-native';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import React from 'react';
+import {StyleSheet, View, Modal, TextInput} from 'react-native';
 import Avatar from 'components/Avatar';
 import Button from 'components/Button';
+import ModalImageSourceOptions from 'components/modalImageSourceOptions/ModalImageSourceOptions';
 import useModalAddUser from './useModalAddUser';
 import {colors} from 'utils/colors';
-
-const IMAGE_SOURCE_OPTIONS = [
-  {
-    id: 1,
-    title: 'Cámara',
-  },
-  {
-    id: 2,
-    title: 'Galería',
-  },
-];
 
 const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
   const {
     userName,
     newImage,
+    isVisibleModalImageSourceOptions,
     inputRef,
     isDisabledSaveBtn,
     handleShowModal,
     handleAddUser,
     handleChangeUserName,
-    renderImageSourceOption,
+    handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
-    isVisibleModalImageSourceOptions,
+    handleSelectNewImage,
   } = useModalAddUser({onAddUser});
 
   return (
@@ -40,10 +30,7 @@ const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
         onRequestClose={onRequestClose}>
         <View style={styles.mainView}>
           <View style={styles.topPortion}>
-            <Avatar
-              image={newImage}
-              onPressImage={() => setIsVisibleModalImageSourceOptions(true)}
-            />
+            <Avatar image={newImage} onPress={handlePressAvatar} />
             <View style={styles.inputView}>
               <TextInput
                 style={styles.textInputAmount}
@@ -65,30 +52,12 @@ const ModalAddUser = ({isVisible, onAddUser, onRequestClose}) => {
           </View>
         </View>
       </Modal>
-      <Modal
-        animationType="slide"
-        visible={isVisibleModalImageSourceOptions}
-        transparent
-        statusBarTranslucent
-        onRequestClose={handleRequestCloseModalImageSourceOptions}>
-        <View style={stylesModalImageSourceOptions.topPortion} />
-        <View style={stylesModalImageSourceOptions.centerPortion}>
-          <FlatList
-            contentContainerStyle={
-              stylesModalImageSourceOptions.sourceOptionsContainer
-            }
-            data={IMAGE_SOURCE_OPTIONS}
-            renderItem={renderImageSourceOption}
-            keyExtractor={item => item.id}
-            ItemSeparatorComponent={() => (
-              <View
-                style={stylesModalImageSourceOptions.sourceOptionsSeparator}
-              />
-            )}
-          />
-        </View>
-        <View style={stylesModalImageSourceOptions.bottomPortion} />
-      </Modal>
+
+      <ModalImageSourceOptions
+        isVisible={isVisibleModalImageSourceOptions}
+        onRequestClose={handleRequestCloseModalImageSourceOptions}
+        onSelectNewImage={handleSelectNewImage}
+      />
     </View>
   );
 };
@@ -118,31 +87,6 @@ const styles = StyleSheet.create({
   textInputAmount: {
     fontSize: 32,
     color: colors.white,
-  },
-});
-
-const stylesModalImageSourceOptions = StyleSheet.create({
-  topPortion: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: colors.modalBackdrop,
-  },
-  centerPortion: {
-    flex: 1,
-    backgroundColor: colors.modalBackdrop,
-  },
-  sourceOptionsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 16,
-  },
-  sourceOptionsSeparator: {
-    height: 24,
-  },
-  bottomPortion: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    backgroundColor: colors.modalBackdrop,
   },
 });
 

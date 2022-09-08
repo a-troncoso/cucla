@@ -1,7 +1,7 @@
 import React from 'react';
 import Button from 'components/Button';
 
-const useModalMovementOptions = ({idMovement, onPressOption}) => {
+const useModalUserOptions = ({idMovement, onPressOption}) => {
   const renderOption = ({item}) => (
     <Button
       onPress={() => onPressOption({optionId: item.id, idMovement})}
@@ -15,4 +15,4 @@ const useModalMovementOptions = ({idMovement, onPressOption}) => {
   };
 };
 
-export default useModalMovementOptions;
+export default useModalUserOptions;
