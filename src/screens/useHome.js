@@ -17,7 +17,6 @@ const useHome = ({onUpdateUser}) => {
 
   const handleLongPressImage = user => {
     setIsVisibleModalUserOptions(true);
-    console.log('user.id', user.id);
     setUserIdToEdit(user.id);
   };
 

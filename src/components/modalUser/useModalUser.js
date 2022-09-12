@@ -69,7 +69,6 @@ const useModalUser = ({
   const handleShow = async () => {
     if (mode === MODAL_USER_MODES.EDIT && modeConfig.userId) {
       const user = await fetchUser(modeConfig.userId);
-      console.log(user);
       setNewUserName(user.name);
       setNewImage(user.imagePath);
     }
