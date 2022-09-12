@@ -32,7 +32,7 @@ const useModalUser = ({
 
     if (mode === MODAL_USER_MODES.ADD)
       onAddUser({newUserName, imagePath: newImage});
-    if (mode === MODAL_USER_MODES.ADD)
+    if (mode === MODAL_USER_MODES.EDIT)
       onEditUser({newUserName, imagePath: newImage});
   };
 
