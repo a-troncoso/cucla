@@ -6,20 +6,37 @@ import ModalImageSourceOptions from 'components/modalImageSourceOptions/ModalIma
 import useModalUser from './useModalUser';
 import {colors} from 'utils/colors';
 
-const ModalUser = ({isVisible, onAddUser, onRequestClose}) => {
+export const MODAL_USER_MODES = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+  REMOVE: 'REMOVE',
+};
+
+const ModalUser = ({
+  isVisible = false,
+  mode = MODAL_USER_MODES.ADD,
+  modeConfig = {
+    userId: null,
+    attributeToEdit: '',
+  },
+  onAddUser = () => {},
+  onEditUser = () => {},
+  onRequestClose = () => {},
+}) => {
   const {
-    userName,
-    newImage,
-    isVisibleModalImageSourceOptions,
     inputRef,
     isDisabledSaveBtn,
-    handleShowModal,
-    handleAddUser,
-    handleChangeUserName,
+    isVisibleModalImageSourceOptions,
+    newImage,
+    newUserName,
+    handleSubmitEditing,
+    handlePressSave,
+    handleChangeNewUserName,
     handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
     handleSelectNewImage,
-  } = useModalUser({onAddUser});
+    handleShowModal,
+  } = useModalUser({mode, modeConfig, onAddUser, onEditUser});
 
   return (
     <View>
@@ -39,14 +56,14 @@ const ModalUser = ({isVisible, onAddUser, onRequestClose}) => {
                 placeholder="Nombre del usuario"
                 placeholderTextColor={colors.disabled}
                 textAlign="center"
-                value={userName}
-                onChangeText={handleChangeUserName}
-                onSubmitEditing={handleAddUser}
+                value={newUserName}
+                onChangeText={handleChangeNewUserName}
+                onSubmitEditing={handleSubmitEditing}
               />
             </View>
           </View>
           <View style={styles.bottomPortion}>
-            <Button onPress={handleAddUser} disabled={isDisabledSaveBtn}>
+            <Button onPress={handlePressSave} disabled={isDisabledSaveBtn}>
               Guardar
             </Button>
           </View>

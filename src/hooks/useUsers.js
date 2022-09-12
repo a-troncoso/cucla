@@ -51,6 +51,19 @@ export const useUsers = ({
     }
   };
 
+  const fetchUser = async userId => {
+    try {
+      const r = await exQuery(
+        getDB(),
+        `SELECT id, imagePath, name, active FROM user WHERE id=${userId}`,
+      );
+      if (r?.length === 1) return r[0];
+      else throw 'No hay usuarios con ese id';
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const registerUser = async ({userName, imagePath}) => {
     const image = imagePath ?? '';
     const queryStatement = `INSERT INTO "user" ("name", "imagePath") VALUES ("${userName}", "${image}")`;
@@ -58,6 +71,20 @@ export const useUsers = ({
     try {
       const res = await exQuery(getDB(), queryStatement);
       setUserRegistrationResult(res);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const updateUser = async ({userId, userName, imagePath}) => {
+    const image = imagePath ?? '';
+    console.log('userId', userId);
+    const queryStatement = `UPDATE "user" SET name="${userName}" WHERE id=${userId}`;
+    // const queryStatement = `UPDATE "user" SET name="${userName}" imagePath="${image}")`;
+
+    try {
+      const res = await exQuery(getDB(), queryStatement);
+      return res;
     } catch (e) {
       console.error(e);
     }
@@ -102,5 +129,5 @@ export const useUsers = ({
     fetchUsers();
   }, []);
 
-  return {users, registerUser, registerLoggedUser};
+  return {fetchUser, users, registerUser, updateUser, registerLoggedUser};
 };

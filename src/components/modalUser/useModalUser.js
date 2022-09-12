@@ -1,28 +1,52 @@
-import {useRef, useState, useMemo} from 'react';
+import {useRef, useState, useMemo, useEffect} from 'react';
+import {MODAL_USER_MODES} from './ModalUser';
+import {useUsers} from 'hooks/useUsers';
 
-const useModalUser = ({onAddUser}) => {
+const useModalUser = ({
+  mode,
+  modeConfig = {
+    userId: null,
+    attributeToEdit: '',
+  },
+  onAddUser = () => {},
+  onEditUser = () => {},
+}) => {
+  const {fetchUser} = useUsers();
   const inputRef = useRef(null);
-  const [userName, setUserName] = useState('');
+  const [newUserName, setNewUserName] = useState('');
   const [newImage, setNewImage] = useState();
   const [
     isVisibleModalImageSourceOptions,
     setIsVisibleModalImageSourceOptions,
   ] = useState(false);
 
-  const isDisabledSaveBtn = useMemo(() => !userName, [userName]);
+  const isDisabledSaveBtn = useMemo(() => !newUserName, [newUserName]);
 
   const handleShowModal = () => {
-    setTimeout(() => inputRef.current.focus(), 200);
-    setUserName('');
+    setTimeout(() => inputRef.current?.focus(), 200);
+    handleShow();
   };
 
-  const handleAddUser = () => {
-    if (!userName) return;
-    onAddUser({userName, imagePath: newImage});
+  const handleSubmitEditing = () => {
+    if (!newUserName) return;
+
+    if (mode === MODAL_USER_MODES.ADD)
+      onAddUser({newUserName, imagePath: newImage});
+    if (mode === MODAL_USER_MODES.ADD)
+      onEditUser({newUserName, imagePath: newImage});
   };
 
-  const handleChangeUserName = value => {
-    setUserName(value);
+  const handlePressSave = () => {
+    if (!newUserName) return;
+
+    if (mode === MODAL_USER_MODES.ADD)
+      onAddUser({newUserName, imagePath: newImage});
+    else if (mode === MODAL_USER_MODES.EDIT)
+      onEditUser({newUserName, imagePath: newImage});
+  };
+
+  const handleChangeNewUserName = value => {
+    setNewUserName(value);
   };
 
   const handlePressAvatar = () => {
@@ -42,18 +66,28 @@ const useModalUser = ({onAddUser}) => {
     inputRef.current.focus();
   };
 
+  const handleShow = async () => {
+    if (mode === MODAL_USER_MODES.EDIT && modeConfig.userId) {
+      const user = await fetchUser(modeConfig.userId);
+      console.log(user);
+      setNewUserName(user.name);
+      setNewImage(user.imagePath);
+    }
+  };
+
   return {
-    userName,
-    newImage,
-    isVisibleModalImageSourceOptions,
     inputRef,
     isDisabledSaveBtn,
-    handleAddUser,
-    handleShowModal,
-    handleChangeUserName,
+    isVisibleModalImageSourceOptions,
+    newImage,
+    newUserName,
+    handleSubmitEditing,
+    handlePressSave,
+    handleChangeNewUserName,
     handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
     handleSelectNewImage,
+    handleShowModal,
   };
 };
 

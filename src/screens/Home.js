@@ -5,6 +5,7 @@ import Avatar, {AVATAR_STATUS} from 'components/Avatar';
 import ModalAddMovement from 'components/modalAddMovement/ModalAddMovement';
 import ModalMovements from 'components/ModalMovements';
 import ModalUserOptions from 'components/modalUserOptions/ModalUserOptions';
+import ModalUser, {MODAL_USER_MODES} from 'components/modalUser/ModalUser';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import useAccount from 'hooks/useAccount';
@@ -19,13 +20,19 @@ const EmptyUsers = () => (
   </View>
 );
 
-const Home = ({accountId = null}) => {
+const Home = ({accountId = null, onUpdateUser = () => {}}) => {
   const {
+    userIdToEdit,
+    userAttributeToEdit,
     isVisibleModalUserOptions,
+    isVisibleModalUser,
     handleLongPressImage,
     handleRequestCloseModalUserOptions,
     handlePressOptionModalUserOptions,
-  } = useHome();
+    handleRequestCloseModalUser,
+    handleEditUser,
+  } = useHome({onUpdateUser});
+
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
@@ -102,7 +109,7 @@ const Home = ({accountId = null}) => {
               status={AVATAR_STATUS.inFavor}
               image={account.users[0]?.imagePath}
               onPress={() => handlePressImage(account.users[0])}
-              onLongPress={handleLongPressImage}
+              onLongPress={() => handleLongPressImage(account.users[0])}
             />
             <Counter
               style={styles.counter}
@@ -115,7 +122,7 @@ const Home = ({accountId = null}) => {
               }
               image={account.users[1]?.imagePath}
               onPress={() => handlePressImage(account.users[1])}
-              onLongPress={handleLongPressImage}
+              onLongPress={() => handleLongPressImage(account.users[1])}
             />
           </View>
         ) : (
@@ -141,6 +148,17 @@ const Home = ({accountId = null}) => {
         isVisible={isVisibleModalUserOptions}
         onRequestClose={handleRequestCloseModalUserOptions}
         onPressOption={handlePressOptionModalUserOptions}
+      />
+
+      <ModalUser
+        isVisible={isVisibleModalUser}
+        mode={MODAL_USER_MODES.EDIT}
+        modeConfig={{
+          userId: userIdToEdit,
+          attributeToEdit: userAttributeToEdit,
+        }}
+        onEditUser={handleEditUser}
+        onRequestClose={handleRequestCloseModalUser}
       />
     </View>
   );

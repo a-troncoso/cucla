@@ -39,9 +39,13 @@ const App = () => {
     setIsVisibleModalUser(false);
   };
 
+  const handleUpdateUser = () => {
+    findAccounts();
+  };
+
   return (
     <View style={styles.mainView}>
-      <Home accountId={selectedAccountId} />
+      <Home accountId={selectedAccountId} onUpdateUser={handleUpdateUser} />
 
       <AccountSelector
         accounts={accounts}

@@ -1,11 +1,24 @@
 import {useState} from 'react';
+import useModeEditUser from 'modules/user/useModeEditUser';
 
-const useHome = () => {
+const useHome = ({onUpdateUser}) => {
   const [isVisibleModalUserOptions, setIsVisibleModalUserOptions] =
     useState(false);
+  const [isVisibleModalUser, setIsVisibleModalUser] = useState(false);
+  const [userIdToEdit, setUserIdToEdit] = useState(null);
+  const {handleEditUser} = useModeEditUser({
+    userId: userIdToEdit,
+    // attributeToEdit: userAttributeToEdit,
+    onEditUser: () => {
+      onUpdateUser();
+      setIsVisibleModalUser(false);
+    },
+  });
 
-  const handleLongPressImage = () => {
+  const handleLongPressImage = user => {
     setIsVisibleModalUserOptions(true);
+    console.log('user.id', user.id);
+    setUserIdToEdit(user.id);
   };
 
   const handleRequestCloseModalUserOptions = () => {
@@ -14,13 +27,22 @@ const useHome = () => {
 
   const handlePressOptionModalUserOptions = () => {
     setIsVisibleModalUserOptions(false);
+    setIsVisibleModalUser(true);
+  };
+
+  const handleRequestCloseModalUser = () => {
+    setIsVisibleModalUser(false);
   };
 
   return {
+    userIdToEdit,
     isVisibleModalUserOptions,
+    isVisibleModalUser,
     handleLongPressImage,
     handleRequestCloseModalUserOptions,
     handlePressOptionModalUserOptions,
+    handleRequestCloseModalUser,
+    handleEditUser,
   };
 };
 
