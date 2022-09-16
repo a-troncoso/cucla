@@ -5,6 +5,7 @@ import Button from 'components/Button';
 import ModalImageSourceOptions from 'components/modalImageSourceOptions/ModalImageSourceOptions';
 import useModalUser from './useModalUser';
 import {colors} from 'utils/colors';
+import {USER_OPTIONS} from '../modalUserOptions/ModalUserOptions';
 
 export const MODAL_USER_MODES = {
   ADD: 'ADD',
@@ -17,7 +18,7 @@ const ModalUser = ({
   mode = MODAL_USER_MODES.ADD,
   modeConfig = {
     userId: null,
-    attributeToEdit: '',
+    attributeToEdit: USER_OPTIONS[1].name,
   },
   onAddUser = () => {},
   onEditUser = () => {},

@@ -1,12 +1,13 @@
 import {useRef, useState, useMemo, useEffect} from 'react';
 import {MODAL_USER_MODES} from './ModalUser';
+import {USER_OPTIONS} from '../modalUserOptions/ModalUserOptions';
 import {useUsers} from 'hooks/useUsers';
 
 const useModalUser = ({
   mode,
   modeConfig = {
     userId: null,
-    attributeToEdit: '',
+    attributeToEdit: USER_OPTIONS[1].name,
   },
   onAddUser = () => {},
   onEditUser = () => {},
@@ -32,7 +33,7 @@ const useModalUser = ({
 
     if (mode === MODAL_USER_MODES.ADD)
       onAddUser({newUserName, imagePath: newImage});
-    if (mode === MODAL_USER_MODES.EDIT)
+    else if (mode === MODAL_USER_MODES.EDIT)
       onEditUser({newUserName, imagePath: newImage});
   };
 
@@ -72,6 +73,13 @@ const useModalUser = ({
       setNewUserName(user.name);
       setNewImage(user.imagePath);
     }
+
+    const actionByUserOption = {
+      [USER_OPTIONS[0].name]: () => setIsVisibleModalImageSourceOptions(true),
+      [USER_OPTIONS[1].name]: () => {},
+    };
+
+    actionByUserOption[modeConfig.attributeToEdit]();
   };
 
   return {

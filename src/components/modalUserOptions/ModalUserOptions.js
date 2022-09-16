@@ -4,15 +4,16 @@ import Button from 'components/Button';
 import useModalUserOptions from './useModalUserOptions';
 import {colors} from 'utils/colors';
 
-const USER_OPTIONS = [
+export const USER_OPTIONS = [
   {
     id: 0,
     title: 'Cambiar foto',
-    disabled: true,
+    name: 'changePicture',
   },
   {
     id: 1,
     title: 'Cambiar nombre',
+    name: 'changeUserName',
   },
 ];
 
@@ -26,7 +27,7 @@ const ModalUserOptions = ({
 
   const renderOption = ({item}) => (
     <Button
-      onPress={() => onPressOption({optionId: item.id})}
+      onPress={() => onPressOption({optionId: item.id, name: item.name})}
       disabled={item.disabled}>
       {item.title}
     </Button>

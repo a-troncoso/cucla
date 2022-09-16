@@ -8,7 +8,6 @@ import ModalUserOptions from 'components/modalUserOptions/ModalUserOptions';
 import ModalUser, {MODAL_USER_MODES} from 'components/modalUser/ModalUser';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
-import useAccount from 'hooks/useAccount';
 import useHome from './useHome';
 
 const EmptyUsers = () => (
@@ -22,32 +21,33 @@ const EmptyUsers = () => (
 
 const Home = ({accountId = null, onUpdateUser = () => {}}) => {
   const {
+    account,
     userIdToEdit,
     userAttributeToEdit,
     isVisibleModalUserOptions,
     isVisibleModalUser,
+    findAccountById,
     handleLongPressImage,
     handleRequestCloseModalUserOptions,
     handlePressOptionModalUserOptions,
     handleRequestCloseModalUser,
     handleEditUser,
-  } = useHome({onUpdateUser});
+  } = useHome({accountId, onUpdateUser});
 
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
     user: {id: null, image: null, status: null},
   });
   const [isVisibleModalMovements, setIsVisibleModalMovements] = useState(false);
-  const {account, findAccountById} = useAccount({accountId});
   const {registerMovement, movements, fetchMovements, removeMovement} =
     useMovements(
       {accountId},
       () => {
-        findAccountById();
+        findAccountById(accountId);
         fetchMovements();
       },
       () => {
-        findAccountById();
+        findAccountById(accountId);
         fetchMovements();
       },
     );
