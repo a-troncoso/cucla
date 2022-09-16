@@ -16,11 +16,11 @@ const useHome = ({accountId, onUpdateUser = () => {}}) => {
     attributeToEdit: userAttributeToEdit,
     onEditUser: () => {
       onUpdateUser();
+      findAccountById(accountId);
       setIsVisibleModalUser(false);
     },
   });
   const {account, findAccountById} = useAccount({accountId});
-  console.log('account', account);
 
   const handleLongPressImage = user => {
     setIsVisibleModalUserOptions(true);
@@ -42,9 +42,8 @@ const useHome = ({accountId, onUpdateUser = () => {}}) => {
   };
 
   useEffect(() => {
-    console.log('accountId', accountId);
     findAccountById(accountId);
-  }, []);
+  }, [accountId]);
 
   return {
     account,

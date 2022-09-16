@@ -2,7 +2,7 @@ import {useEffect, useState} from 'react';
 import {useDatabase} from './useDatabase';
 import {groupBy} from 'utils/array';
 
-const useAccount = ({accountId = null}) => {
+const useAccount = () => {
   const {getDB, exQuery} = useDatabase();
   const [accounts, setAccounts] = useState([]);
   const [account, setAccount] = useState({users: [], debtUser: {}, debt: 0});
@@ -33,7 +33,7 @@ const useAccount = ({accountId = null}) => {
     }
   };
 
-  const findAccountById = async () => {
+  const findAccountById = async accountId => {
     try {
       const sumAmountsByUser = await exQuery(
         getDB(),
@@ -63,10 +63,6 @@ const useAccount = ({accountId = null}) => {
   useEffect(() => {
     findAccounts();
   }, []);
-
-  useEffect(() => {
-    findAccountById();
-  }, [accountId]);
 
   return {accounts, account, findAccounts, findAccountById};
 };
