@@ -1,5 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Vibration,
+} from 'react-native';
 import Avatar, {sizes, AVATAR_STATUS} from './Avatar';
 import ModalMovementOptions from 'components/modalMovementOptions/ModalMovementOptions';
 import {colors} from 'utils/colors';
@@ -16,6 +22,7 @@ const MovementItem = ({
     useState(false);
 
   const handleLongPressMovementItem = () => {
+    Vibration.vibrate(48);
     setIsVisibleModalMovementOptions(true);
   };
 

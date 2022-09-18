@@ -1,5 +1,12 @@
 import React from 'react';
-import {StyleSheet, View, Image, TouchableOpacity, Text} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  Vibration,
+} from 'react-native';
 import {colors} from 'utils/colors';
 
 export const AVATAR_STATUS = {
@@ -30,12 +37,17 @@ const Avatar = ({
 }) => {
   const AvatarContainer = onPress || onLongPress ? TouchableOpacity : View;
 
+  const handleLongPress = () => {
+    Vibration.vibrate(48);
+    onLongPress();
+  };
+
   return (
     <View style={[styles.mainView, containerStyle]}>
       <AvatarContainer
         style={styles.avatarBtn}
         onPress={onPress}
-        onLongPress={onLongPress}>
+        onLongPress={handleLongPress}>
         {typeof image === 'string' ? (
           <Image
             source={{uri: image || DEFAULT_AVATAR_IMAGE}}
