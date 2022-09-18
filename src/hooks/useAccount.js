@@ -11,10 +11,11 @@ const useAccount = () => {
     try {
       const result = await exQuery(
         getDB(),
-        `SELECT a.id, u.id userId, u.name userName, u.imagePath userImagePath
+        `SELECT a.id, u.id userId, u.name userName, u.imagePath userImagePath, u.active active
         FROM account a
         LEFT JOIN user_account ua ON a.id = ua.accountId
-        LEFT JOIN user u on u.id = ua.userId;`,
+        LEFT JOIN user u on u.id = ua.userId
+        WHERE a.active = 1;`,
       );
       const groupedById = groupBy(result, 'id');
 
@@ -27,6 +28,7 @@ const useAccount = () => {
         })),
       }));
 
+      console.log('process', process);
       setAccounts(process);
     } catch (e) {
       console.error(e);
@@ -41,14 +43,16 @@ const useAccount = () => {
         FROM user u
         LEFT JOIN movement m ON u.id = m.payingUserId
         LEFT JOIN user_account ua ON u.id = ua.userId
+        LEFT JOIN account a ON a.id = ua.accountId
         WHERE ua.accountId = ${accountId}
+        AND a.active = 1
         GROUP BY u.id, u.name
         ORDER BY sumAmount DESC;`,
       );
 
       const updatedDebt = await exQuery(
         getDB(),
-        `SELECT updatedDebt FROM account WHERE id = ${accountId};`,
+        `SELECT updatedDebt FROM account WHERE id = ${accountId} AND active = 1;`,
       );
 
       setAccount({

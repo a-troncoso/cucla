@@ -6,6 +6,7 @@ import ModalAddMovement from 'components/modalAddMovement/ModalAddMovement';
 import ModalMovements from 'components/ModalMovements';
 import ModalUserOptions from 'components/modalUserOptions/ModalUserOptions';
 import ModalUser, {MODAL_USER_MODES} from 'components/modalUser/ModalUser';
+import ModalConfirmation from 'components/modalConfirmation/ModalConfirmation';
 import {colors} from 'utils/colors';
 import {useMovements} from 'hooks/useMovements';
 import useHome from './useHome';
@@ -19,20 +20,29 @@ const EmptyUsers = () => (
   </View>
 );
 
-const Home = ({accountId = null, onUpdateUser = () => {}}) => {
+const Home = ({
+  accountId = null,
+  onUpdateUser = () => {},
+  onRemoveUser = () => {},
+  onRemoveAccount = () => {},
+}) => {
   const {
     account,
     userIdToEdit,
     userAttributeToEdit,
     isVisibleModalUserOptions,
     isVisibleModalUser,
+    isVisibleModalConfirmation,
     findAccountById,
     handleLongPressImage,
     handleRequestCloseModalUserOptions,
     handlePressOptionModalUserOptions,
     handleRequestCloseModalUser,
+    handleRemoveAccount,
+    handlePressNegativeSelection,
+    handleRequestCloseModalConfirmation,
     handleEditUser,
-  } = useHome({accountId, onUpdateUser});
+  } = useHome({accountId, onUpdateUser, onRemoveAccount});
 
   const [modalUserConfig, setModalUserConfig] = useState({
     isVisible: false,
@@ -145,6 +155,7 @@ const Home = ({accountId = null, onUpdateUser = () => {}}) => {
       />
 
       <ModalUserOptions
+        idUser={userIdToEdit}
         isVisible={isVisibleModalUserOptions}
         onRequestClose={handleRequestCloseModalUserOptions}
         onPressOption={handlePressOptionModalUserOptions}
@@ -159,6 +170,14 @@ const Home = ({accountId = null, onUpdateUser = () => {}}) => {
         }}
         onEditUser={handleEditUser}
         onRequestClose={handleRequestCloseModalUser}
+      />
+
+      <ModalConfirmation
+        isVisible={isVisibleModalConfirmation}
+        title="¿Quieres eliminar la cuenta usuario?"
+        onPositiveSelection={() => handleRemoveAccount({accountId})}
+        onNegativeSelection={handlePressNegativeSelection}
+        onRequestClose={handleRequestCloseModalConfirmation}
       />
     </View>
   );

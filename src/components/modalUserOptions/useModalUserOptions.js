@@ -1,5 +1,12 @@
+import {useState} from 'react';
+
 const useModalUserOptions = () => {
-  return {};
+  const [isVisibleModalConfirmation, setIsVisibleModalConfirmation] =
+    useState(true);
+
+  return {
+    isVisibleModalConfirmation,
+  };
 };
 
 export default useModalUserOptions;

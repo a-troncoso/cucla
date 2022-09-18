@@ -122,9 +122,26 @@ export const useUsers = ({
     }
   };
 
+  const deactivateAccount = async ({accountId}) => {
+    try {
+      const queryStatement = `UPDATE "account" SET active=0 WHERE id=${accountId};`;
+      const res = await exQuery(getDB(), queryStatement);
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  return {fetchUser, users, registerUser, updateUser, registerLoggedUser};
+  return {
+    fetchUser,
+    users,
+    registerUser,
+    updateUser,
+    registerLoggedUser,
+    deactivateAccount,
+  };
 };

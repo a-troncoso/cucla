@@ -8,7 +8,7 @@ import useAccount from 'hooks/useAccount';
 import {useUsers} from 'hooks/useUsers';
 
 const initialSelectedAccountId = 1;
-const userIdLogged = 1;
+export const userIdLogged = 1;
 
 const App = () => {
   useApp({userIdLogged});
@@ -31,6 +31,7 @@ const App = () => {
   };
 
   const handleSubmitAddUser = ({userName, imagePath}) => {
+    console.log({userName, imagePath});
     registerUser({userName, imagePath});
     setIsVisibleModalUser(false);
   };
@@ -43,9 +44,17 @@ const App = () => {
     findAccounts();
   };
 
+  const handleRemoveAccount = () => {
+    findAccounts();
+  };
+
   return (
     <View style={styles.mainView}>
-      <Home accountId={selectedAccountId} onUpdateUser={handleUpdateUser} />
+      <Home
+        accountId={selectedAccountId}
+        onUpdateUser={handleUpdateUser}
+        onRemoveAccount={handleRemoveAccount}
+      />
 
       <AccountSelector
         accounts={accounts}

@@ -31,18 +31,9 @@ const useModalUser = ({
   const handleSubmitEditing = () => {
     if (!newUserName) return;
 
-    if (mode === MODAL_USER_MODES.ADD)
-      onAddUser({newUserName, imagePath: newImage});
-    else if (mode === MODAL_USER_MODES.EDIT)
-      onEditUser({newUserName, imagePath: newImage});
-  };
-
-  const handlePressSave = () => {
-    if (!newUserName) return;
-
-    if (mode === MODAL_USER_MODES.ADD)
-      onAddUser({newUserName, imagePath: newImage});
-    else if (mode === MODAL_USER_MODES.EDIT)
+    if (mode === MODAL_USER_MODES.ADD) {
+      onAddUser({userName: newUserName, imagePath: newImage});
+    } else if (mode === MODAL_USER_MODES.EDIT)
       onEditUser({newUserName, imagePath: newImage});
   };
 
@@ -72,6 +63,8 @@ const useModalUser = ({
       const user = await fetchUser(modeConfig.userId);
       setNewUserName(user.name);
       setNewImage(user.imagePath);
+    } else if (mode === MODAL_USER_MODES.ADD) {
+      setNewUserName('');
     }
 
     const actionByUserOption = {
@@ -89,7 +82,6 @@ const useModalUser = ({
     newImage,
     newUserName,
     handleSubmitEditing,
-    handlePressSave,
     handleChangeNewUserName,
     handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,

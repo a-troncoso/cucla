@@ -31,7 +31,6 @@ const ModalUser = ({
     newImage,
     newUserName,
     handleSubmitEditing,
-    handlePressSave,
     handleChangeNewUserName,
     handlePressAvatar,
     handleRequestCloseModalImageSourceOptions,
@@ -64,7 +63,7 @@ const ModalUser = ({
             </View>
           </View>
           <View style={styles.bottomPortion}>
-            <Button onPress={handlePressSave} disabled={isDisabledSaveBtn}>
+            <Button onPress={handleSubmitEditing} disabled={isDisabledSaveBtn}>
               Guardar
             </Button>
           </View>
