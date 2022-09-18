@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, Text, View, Modal, TextInput} from 'react-native';
+import {StyleSheet, Text, View, Modal} from 'react-native';
+import TextInput from 'components/textInput/TextInput';
 import Avatar, {AVATAR_STATUS} from 'components/Avatar';
 import Button from 'components/Button';
 import useModalAddMovement from './useModalAddMovement';
@@ -30,8 +31,8 @@ const ModalAddMovement = ({user, isVisible, onAddMovement, onRequestClose}) => {
               blurOnSubmit={false}
               keyboardType="numeric"
               ref={inputRef}
-              style={styles.textInputAmount}
               value={amount}
+              format="0,0"
               onChangeText={handleChangeAmount}
               onSubmitEditing={handleAddMovement}
             />
@@ -74,12 +75,6 @@ const styles = StyleSheet.create({
     fontSize: 56,
     lineHeight: 68,
     color: colors.white,
-  },
-  textInputAmount: {
-    paddingLeft: 40,
-    fontSize: 40,
-    color: colors.white,
-    textAlign: 'center',
   },
 });
 

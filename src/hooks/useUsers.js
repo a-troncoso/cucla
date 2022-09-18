@@ -77,7 +77,6 @@ export const useUsers = ({
   };
 
   const updateUser = async ({userId, userName, imagePath}) => {
-    console.log({userId, userName, imagePath});
     const queryStatement = `UPDATE "user" SET name="${userName}", imagePath="${imagePath}" WHERE id=${userId};`;
 
     try {

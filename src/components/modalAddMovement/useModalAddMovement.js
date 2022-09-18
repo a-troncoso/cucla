@@ -6,7 +6,7 @@ const useModalAddMovement = ({onAddMovement}) => {
   const isDisabledSaveBtn = useMemo(() => !amount, [amount]);
 
   const handleShowModal = () => {
-    setTimeout(() => inputRef.current.focus(), 200);
+    setTimeout(() => inputRef.current?.focus(), 200);
     setAmount('');
   };
 
