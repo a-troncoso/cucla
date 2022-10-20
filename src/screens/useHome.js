@@ -126,13 +126,6 @@ const useHome = ({
       accountId,
     });
 
-    console.log({
-      amount,
-      payingUserId: modalMovement.user.id,
-      debtUserId: account.users.find(u => u.id !== modalMovement.user.id).id,
-      accountId,
-    });
-
     findAccountById(accountId);
     fetchMovements({accountId});
   };
@@ -164,11 +157,12 @@ const useHome = ({
   const handleRemoveMovement = async id => {
     await removeMovement({id});
     findAccountById(accountId);
-    fetchMovements();
+    fetchMovements({accountId});
   };
 
   useEffect(() => {
     findAccountById(accountId);
+    fetchMovements({accountId});
   }, [accountId]);
 
   return {

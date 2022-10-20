@@ -58,11 +58,6 @@ const useAccount = () => {
         users: sumAmountsByUser,
         debt: updatedDebt.length > 0 ? updatedDebt[0].updatedDebt : 0,
       });
-
-      console.log({
-        users: sumAmountsByUser,
-        debt: updatedDebt.length > 0 ? updatedDebt[0].updatedDebt : 0,
-      });
     } catch (e) {
       console.error(e);
     }
