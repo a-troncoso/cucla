@@ -1,15 +1,16 @@
 import {useDatabase} from './useDatabase';
-import {useState, useEffect} from 'react';
+import {useState} from 'react';
 
-export const useMovements = (
-  {accountId},
-  onSuccessRegistration,
-  onSuccessRemove,
-) => {
+export const useMovements = () => {
   const {getDB, exQuery} = useDatabase();
   const [movements, setMovements] = useState([]);
 
-  const registerMovement = async ({amount, payingUserId, debtUserId}) => {
+  const registerMovement = async ({
+    amount,
+    payingUserId,
+    debtUserId,
+    accountId,
+  }) => {
     try {
       await exQuery(
         getDB(),
@@ -18,20 +19,20 @@ export const useMovements = (
         VALUES
         (${payingUserId}, ${debtUserId}, ${amount}, 'today', ${accountId});`,
       );
-
-      onSuccessRegistration();
     } catch (e) {
       console.error(e);
     }
   };
 
-  const fetchMovements = async () => {
+  const fetchMovements = async ({accountId}) => {
     try {
       const result = await exQuery(
         getDB(),
         `SELECT m.id,
-                m.payingUserId, pu.name AS payingUserName,  pu.imagePath AS payingUserImagePath,
-                m.debtUserId, du.name AS debtUserName, du.imagePath AS debtUserImagePath,
+                m.payingUserId,
+                pu.name AS payingUserName,  pu.imagePath AS payingUserImagePath,
+                m.debtUserId,
+                du.name AS debtUserName, du.imagePath AS debtUserImagePath,
                 m.amount
         FROM movement m
         INNER JOIN user pu ON m.payingUserId = pu.id
@@ -47,22 +48,53 @@ export const useMovements = (
     }
   };
 
+  const fetchMovementById = async movementId => {
+    try {
+      const result = await exQuery(
+        getDB(),
+        `SELECT m.payingUserId,
+                m.debtUserId,
+                m.date,
+                m.amount
+        FROM movement m
+        WHERE
+          m.id = ${movementId}
+          AND m.active=1;`,
+      );
+      return result[0];
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const removeMovement = async ({id}) => {
     try {
       await exQuery(
         getDB(),
         `UPDATE "movement" SET active = 0 WHERE id = ${id};`,
       );
-
-      onSuccessRemove();
     } catch (e) {
       console.error(e);
     }
   };
 
-  useEffect(() => {
-    fetchMovements();
-  }, [accountId]);
+  const editMovement = async ({movementId, amount}) => {
+    const queryStatement = `UPDATE "movement" SET amount=${amount} WHERE id=${movementId};`;
 
-  return {registerMovement, movements, fetchMovements, removeMovement};
+    try {
+      const res = await exQuery(getDB(), queryStatement);
+      return res;
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  return {
+    registerMovement,
+    movements,
+    fetchMovements,
+    fetchMovementById,
+    removeMovement,
+    editMovement,
+  };
 };

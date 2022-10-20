@@ -6,15 +6,30 @@ import Button from 'components/Button';
 import useModalAddMovement from './useModalAddMovement';
 import {colors} from 'utils/colors';
 
-const ModalAddMovement = ({user, isVisible, onAddMovement, onRequestClose}) => {
+export const MODAL_MOVEMENT_MODES = {
+  ADD: 'ADD',
+  EDIT: 'EDIT',
+};
+
+const ModalAddMovement = ({
+  user,
+  isVisible,
+  mode = MODAL_MOVEMENT_MODES.ADD,
+  modeConfig = {
+    movementId: null,
+  },
+  onAddMovement,
+  onEditMovement,
+  onRequestClose,
+}) => {
   const {
     inputRef,
     amount,
     isDisabledSaveBtn,
     handleShowModal,
     handleChangeAmount,
-    handleAddMovement,
-  } = useModalAddMovement({onAddMovement});
+    handleSubmitEditing,
+  } = useModalAddMovement({mode, modeConfig, onAddMovement, onEditMovement});
 
   return (
     <Modal
@@ -34,12 +49,12 @@ const ModalAddMovement = ({user, isVisible, onAddMovement, onRequestClose}) => {
               value={amount}
               format="0,0"
               onChangeText={handleChangeAmount}
-              onSubmitEditing={handleAddMovement}
+              onSubmitEditing={handleSubmitEditing}
             />
           </View>
         </View>
         <View style={styles.bottomPortion}>
-          <Button onPress={handleAddMovement} disabled={isDisabledSaveBtn}>
+          <Button onPress={handleSubmitEditing} disabled={isDisabledSaveBtn}>
             Guardar
           </Button>
         </View>

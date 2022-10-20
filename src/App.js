@@ -31,7 +31,6 @@ const App = () => {
   };
 
   const handleSubmitAddUser = ({userName, imagePath}) => {
-    console.log({userName, imagePath});
     registerUser({userName, imagePath});
     setIsVisibleModalUser(false);
   };

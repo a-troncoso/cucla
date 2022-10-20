@@ -8,7 +8,6 @@ import ModalUserOptions from 'components/modalUserOptions/ModalUserOptions';
 import ModalUser, {MODAL_USER_MODES} from 'components/modalUser/ModalUser';
 import ModalConfirmation from 'components/modalConfirmation/ModalConfirmation';
 import {colors} from 'utils/colors';
-import {useMovements} from 'hooks/useMovements';
 import useHome from './useHome';
 
 const EmptyUsers = () => (
@@ -23,17 +22,19 @@ const EmptyUsers = () => (
 const Home = ({
   accountId = null,
   onUpdateUser = () => {},
-  onRemoveUser = () => {},
   onRemoveAccount = () => {},
 }) => {
   const {
     account,
     userIdToEdit,
     userAttributeToEdit,
+    movementIdToEdit,
     isVisibleModalUserOptions,
     isVisibleModalUser,
     isVisibleModalConfirmation,
-    findAccountById,
+    modeModalMovement,
+    modalMovement,
+    movements,
     handleLongPressImage,
     handleRequestCloseModalUserOptions,
     handlePressOptionModalUserOptions,
@@ -42,46 +43,15 @@ const Home = ({
     handlePressNegativeSelection,
     handleRequestCloseModalConfirmation,
     handleEditUser,
+    handleChangeMovementAmount,
+    handleRequestCloseModalMovement,
+    handleAddMovement,
+    handleEditMovement,
+    handlePressImage,
+    handleRemoveMovement,
   } = useHome({accountId, onUpdateUser, onRemoveAccount});
 
-  const [modalUserConfig, setModalUserConfig] = useState({
-    isVisible: false,
-    user: {id: null, image: null, status: null},
-  });
   const [isVisibleModalMovements, setIsVisibleModalMovements] = useState(false);
-  const {registerMovement, movements, fetchMovements, removeMovement} =
-    useMovements(
-      {accountId},
-      () => {
-        findAccountById(accountId);
-        fetchMovements();
-      },
-      () => {
-        findAccountById(accountId);
-        fetchMovements();
-      },
-    );
-
-  const handlePressImage = user => {
-    setModalUserConfig(prevState => ({
-      ...prevState,
-      isVisible: true,
-      user: {...prevState.user, ...user},
-    }));
-  };
-
-  const handleAddMovement = amount => {
-    setModalUserConfig(prevState => ({
-      ...prevState,
-      isVisible: false,
-    }));
-
-    registerMovement({
-      amount,
-      payingUserId: modalUserConfig.user.id,
-      debtUserId: account.users.find(u => u.id !== modalUserConfig.user.id).id,
-    });
-  };
 
   const handlePressCounter = () => {
     if (movements.length === 0)
@@ -91,17 +61,6 @@ const Home = ({
         },
       ]);
     else setIsVisibleModalMovements(true);
-  };
-
-  const handleRequestCloseModal = () => {
-    setModalUserConfig(prevState => ({
-      ...prevState,
-      isVisible: false,
-    }));
-  };
-
-  const handleRemoveMovement = id => {
-    removeMovement({id});
   };
 
   const handleRequestCloseModalMovements = () => {
@@ -141,17 +100,23 @@ const Home = ({
       </View>
 
       <ModalAddMovement
-        user={modalUserConfig.user}
-        isVisible={modalUserConfig.isVisible}
+        isVisible={modalMovement.isVisible}
+        mode={modeModalMovement}
+        modeConfig={{
+          movementId: movementIdToEdit,
+        }}
+        user={modalMovement.user}
         onAddMovement={handleAddMovement}
-        onRequestClose={handleRequestCloseModal}
+        onEditMovement={handleEditMovement}
+        onRequestClose={handleRequestCloseModalMovement}
       />
 
       <ModalMovements
-        movements={movements}
         isVisible={isVisibleModalMovements}
+        movements={movements}
         onRequestClose={handleRequestCloseModalMovements}
         onRemoveMovement={handleRemoveMovement}
+        onChangeMovementAmount={handleChangeMovementAmount}
       />
 
       <ModalUserOptions

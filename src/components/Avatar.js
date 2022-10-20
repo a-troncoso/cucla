@@ -39,7 +39,8 @@ const Avatar = ({
 
   const handleLongPress = () => {
     Vibration.vibrate(48);
-    onLongPress();
+
+    if (onLongPress) onLongPress();
   };
 
   return (

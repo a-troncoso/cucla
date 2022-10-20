@@ -23,6 +23,7 @@ const ModalMovements = ({
   movements,
   onRequestClose,
   onRemoveMovement,
+  onChangeMovementAmount,
 }) => {
   const renderItem = ({item}) => {
     return (
@@ -32,6 +33,7 @@ const ModalMovements = ({
         debtUserImagePath={item.debtUserImagePath}
         payingUserImage={item.payingUserImagePath}
         onRemoveMovement={onRemoveMovement}
+        onChangeMovementAmount={onChangeMovementAmount}
       />
     );
   };

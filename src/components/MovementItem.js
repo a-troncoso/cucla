@@ -16,7 +16,8 @@ const MovementItem = ({
   payingUserImage,
   debtUserImagePath,
   amount,
-  onRemoveMovement,
+  onRemoveMovement = () => {},
+  onChangeMovementAmount = () => {},
 }) => {
   const [isVisibleModalMovementOptions, setIsVisibleModalMovementOptions] =
     useState(false);
@@ -32,9 +33,11 @@ const MovementItem = ({
 
   const handlePressOptionModalMovement = ({optionId, idMovement}) => {
     const optionsById = {
-      1: () => {},
+      1: () => onChangeMovementAmount(idMovement),
       2: () => onRemoveMovement(idMovement),
     };
+
+    setIsVisibleModalMovementOptions(false);
     optionsById[optionId]();
   };
 

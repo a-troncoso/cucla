@@ -28,7 +28,6 @@ const useAccount = () => {
         })),
       }));
 
-      console.log('process', process);
       setAccounts(process);
     } catch (e) {
       console.error(e);
@@ -39,7 +38,7 @@ const useAccount = () => {
     try {
       const sumAmountsByUser = await exQuery(
         getDB(),
-        `SELECT u.id, u.name, u.imagePath, SUM(CASE WHEN m.active = 1 THEN  m.amount ELSE 0 END) sumAmount 
+        `SELECT u.id, u.name, u.imagePath, SUM(CASE WHEN m.active = 1 AND m.accountId = ${accountId} THEN m.amount ELSE 0 END) sumAmount 
         FROM user u
         LEFT JOIN movement m ON u.id = m.payingUserId
         LEFT JOIN user_account ua ON u.id = ua.userId
@@ -56,6 +55,11 @@ const useAccount = () => {
       );
 
       setAccount({
+        users: sumAmountsByUser,
+        debt: updatedDebt.length > 0 ? updatedDebt[0].updatedDebt : 0,
+      });
+
+      console.log({
         users: sumAmountsByUser,
         debt: updatedDebt.length > 0 ? updatedDebt[0].updatedDebt : 0,
       });

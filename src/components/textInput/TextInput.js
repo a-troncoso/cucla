@@ -19,12 +19,14 @@ const TextInput = forwardRef(
       onChangeText(newValue);
     };
 
-    useEffect(() => {
+    const valueEffect = () => {
       if (keyboardType === 'numeric' && format) {
         const m = numeral(value).format(format);
         setMask(m);
       }
-    }, [value]);
+    };
+
+    useEffect(valueEffect, [value]);
 
     return (
       <RNTextInput

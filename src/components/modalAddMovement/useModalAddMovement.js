@@ -1,22 +1,39 @@
 import {useRef, useState, useMemo} from 'react';
+import {MODAL_MOVEMENT_MODES} from 'components/modalAddMovement/ModalAddMovement';
+import {useMovements} from 'hooks/useMovements';
 
-const useModalAddMovement = ({onAddMovement}) => {
+const useModalAddMovement = ({
+  mode,
+  modeConfig = {movementId: null},
+  onAddMovement = () => {},
+  onEditMovement = () => {},
+}) => {
   const inputRef = useRef(null);
   const [amount, setAmount] = useState('');
   const isDisabledSaveBtn = useMemo(() => !amount, [amount]);
+  const {fetchMovementById} = useMovements();
 
-  const handleShowModal = () => {
+  const handleShowModal = async () => {
     setTimeout(() => inputRef.current?.focus(), 200);
-    setAmount('');
+
+    if (mode === MODAL_MOVEMENT_MODES.EDIT && modeConfig.movementId) {
+      const movement = await fetchMovementById(modeConfig.movementId);
+      setAmount(movement?.amount);
+    } else if (mode === MODAL_MOVEMENT_MODES.ADD) {
+      setAmount('');
+    }
   };
 
   const handleChangeAmount = value => {
     setAmount(value);
   };
 
-  const handleAddMovement = () => {
+  const handleSubmitEditing = () => {
     if (!amount) return;
-    onAddMovement(amount);
+
+    if (mode === MODAL_MOVEMENT_MODES.ADD) {
+      onAddMovement(amount);
+    } else if (mode === MODAL_MOVEMENT_MODES.EDIT) onEditMovement({amount});
   };
 
   return {
@@ -25,7 +42,7 @@ const useModalAddMovement = ({onAddMovement}) => {
     isDisabledSaveBtn,
     handleShowModal,
     handleChangeAmount,
-    handleAddMovement,
+    handleSubmitEditing,
   };
 };
 

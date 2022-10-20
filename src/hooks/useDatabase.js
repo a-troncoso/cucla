@@ -21,11 +21,13 @@ export const useDatabase = () => {
           [],
           (trans, results) => {
             let data = [];
+
             for (let i = 0; i < results.rows.length; i++) {
               data.push(results.rows.item(i));
             }
 
             const isInsertStatement = results.insertId ? true : false;
+
             data = isInsertStatement
               ? {insertId: results.insertId, rowsAffected: results.rowsAffected}
               : data;
