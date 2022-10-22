@@ -6,7 +6,6 @@ export const useUsers = ({
   onSuccessUserRegistration = null,
 } = {}) => {
   const {getDB, exQuery} = useDatabase();
-  const [users, setUsers] = useState([]);
   const [userRegistrationResult, setUserRegistrationResult] = useState({
     insertId: null,
     rowsAffected: 0,
@@ -44,8 +43,11 @@ export const useUsers = ({
 
   const fetchUsers = async () => {
     try {
-      const r = await exQuery(getDB(), `SELECT * FROM user`);
-      setUsers(r);
+      const res = await exQuery(
+        getDB(),
+        `SELECT id, name, imagePath, active FROM user`,
+      );
+      return res;
     } catch (e) {
       console.error(e);
     }
@@ -132,13 +134,13 @@ export const useUsers = ({
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  // useEffect(() => {
+  //   fetchUsers();
+  // }, []);
 
   return {
+    fetchUsers,
     fetchUser,
-    users,
     registerUser,
     updateUser,
     registerLoggedUser,

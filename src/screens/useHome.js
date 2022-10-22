@@ -39,7 +39,7 @@ const useHome = ({
     },
   });
   const {account, findAccountById} = useAccount({accountId});
-  const {deactivateAccount} = useUsers();
+  const {deactivateAccount, fetchUser} = useUsers();
   const {
     movements,
     fetchMovements,
@@ -48,7 +48,6 @@ const useHome = ({
     registerMovement,
     editMovement,
   } = useMovements();
-  const {fetchUser} = useUsers();
 
   const handleLongPressImage = user => {
     setIsVisibleModalUserOptions(true);

@@ -2,13 +2,16 @@ import {useEffect} from 'react';
 import {useUsers} from './useUsers';
 
 export const useApp = ({userIdLogged}) => {
-  const {registerLoggedUser} = useUsers();
+  const {registerLoggedUser, fetchUsers} = useUsers();
 
-  const registerInitialUser = () => {
-    registerLoggedUser({
-      id: userIdLogged,
-      name: 'User logged',
-    });
+  const registerInitialUser = async () => {
+    const users = await fetchUsers();
+    const usersQuantity = users.length;
+    if (usersQuantity === 0)
+      registerLoggedUser({
+        id: userIdLogged,
+        name: 'root',
+      });
   };
 
   useEffect(() => {
