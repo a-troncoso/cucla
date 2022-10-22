@@ -50,11 +50,12 @@ const ModalUser = ({
             <Avatar image={newImage} onPress={handlePressAvatar} />
             <View style={styles.inputView}>
               <TextInput
-                style={styles.textInputAmount}
-                ref={inputRef}
+                autoFocus
                 blurOnSubmit={false}
                 placeholder="Nombre del usuario"
                 placeholderTextColor={colors.disabled}
+                ref={inputRef}
+                style={styles.textInputAmount}
                 textAlign="center"
                 value={newUserName}
                 onChangeText={handleChangeNewUserName}

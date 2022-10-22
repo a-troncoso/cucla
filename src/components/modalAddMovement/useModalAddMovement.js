@@ -9,19 +9,21 @@ const useModalAddMovement = ({
   onEditMovement = () => {},
 }) => {
   const inputRef = useRef(null);
-  const [amount, setAmount] = useState('');
+  const [amount, setAmount] = useState(0);
   const isDisabledSaveBtn = useMemo(() => !amount, [amount]);
   const {fetchMovementById} = useMovements();
 
   const handleShowModal = async () => {
-    setTimeout(() => inputRef.current?.focus(), 200);
-
     if (mode === MODAL_MOVEMENT_MODES.EDIT && modeConfig.movementId) {
       const movement = await fetchMovementById(modeConfig.movementId);
       setAmount(movement?.amount);
     } else if (mode === MODAL_MOVEMENT_MODES.ADD) {
-      setAmount('');
+      setAmount(0);
     }
+
+    // setTimeout(() => {
+    //   inputRef.current?.focus();
+    // }, 200);
   };
 
   const handleChangeAmount = value => {

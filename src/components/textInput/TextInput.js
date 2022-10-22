@@ -5,9 +5,18 @@ import {colors} from 'utils/colors';
 
 const TextInput = forwardRef(
   (
-    {blurOnSubmit, keyboardType, value, format, onChangeText, onSubmitEditing},
+    {
+      autoFocus,
+      blurOnSubmit,
+      keyboardType,
+      value,
+      format,
+      onChangeText,
+      onSubmitEditing,
+    },
     ref,
   ) => {
+    console.log('value', value);
     const [mask, setMask] = useState('');
 
     const handleChangeText = text => {
@@ -20,6 +29,7 @@ const TextInput = forwardRef(
     };
 
     const valueEffect = () => {
+      // console.log('value', value);
       if (keyboardType === 'numeric' && format) {
         const m = numeral(value).format(format);
         setMask(m);
@@ -30,6 +40,7 @@ const TextInput = forwardRef(
 
     return (
       <RNTextInput
+        autoFocus={autoFocus}
         blurOnSubmit={blurOnSubmit}
         keyboardType={keyboardType}
         ref={ref}

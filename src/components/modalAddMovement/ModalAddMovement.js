@@ -43,6 +43,7 @@ const ModalAddMovement = ({
           <View style={styles.inputView}>
             <Text style={styles.textInputPrefix}>$</Text>
             <TextInput
+              autoFocus
               blurOnSubmit={false}
               keyboardType="numeric"
               ref={inputRef}
