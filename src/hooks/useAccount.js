@@ -4,8 +4,6 @@ import {groupBy} from 'utils/array';
 
 const useAccount = () => {
   const {getDB, exQuery} = useDatabase();
-  const [accounts, setAccounts] = useState([]);
-  const [account, setAccount] = useState({users: [], debtUser: {}, debt: 0});
 
   const findAccounts = async () => {
     try {
@@ -28,7 +26,7 @@ const useAccount = () => {
         })),
       }));
 
-      setAccounts(process);
+      return process;
     } catch (e) {
       console.error(e);
     }
@@ -54,20 +52,21 @@ const useAccount = () => {
         `SELECT updatedDebt FROM account WHERE id = ${accountId} AND active = 1;`,
       );
 
-      setAccount({
+      const accountData = {
         users: sumAmountsByUser,
         debt: updatedDebt.length > 0 ? updatedDebt[0].updatedDebt : 0,
-      });
+      };
+
+      return accountData;
     } catch (e) {
       console.error(e);
     }
   };
 
-  useEffect(() => {
-    findAccounts();
-  }, []);
-
-  return {accounts, account, findAccounts, findAccountById};
+  return {
+    findAccounts,
+    findAccountById,
+  };
 };
 
 export default useAccount;

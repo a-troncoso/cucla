@@ -1,4 +1,4 @@
-import {useRef, useState, useMemo, useEffect} from 'react';
+import {useRef, useState, useMemo} from 'react';
 import {MODAL_USER_MODES} from './ModalUser';
 import {USER_OPTIONS} from '../modalUserOptions/ModalUserOptions';
 import {useUsers} from 'hooks/useUsers';
@@ -15,7 +15,7 @@ const useModalUser = ({
   const {fetchUser} = useUsers();
   const inputRef = useRef(null);
   const [newUserName, setNewUserName] = useState('');
-  const [newImage, setNewImage] = useState();
+  const [newImage, setNewImage] = useState('');
   const [
     isVisibleModalImageSourceOptions,
     setIsVisibleModalImageSourceOptions,
@@ -64,6 +64,7 @@ const useModalUser = ({
       setNewUserName(user.name);
       setNewImage(user.imagePath);
     } else if (mode === MODAL_USER_MODES.ADD) {
+      setNewImage('');
       setNewUserName('');
     }
 

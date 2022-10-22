@@ -1,4 +1,3 @@
-// import {useEffect, useState} from 'react';
 import {useUsers} from 'hooks/useUsers';
 
 const useModeEditUser = ({userId = null, onEditUser = () => {}}) => {

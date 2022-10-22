@@ -21,6 +21,7 @@ const useHome = ({
   const [isVisibleModalUser, setIsVisibleModalUser] = useState(false);
   const [isVisibleModalConfirmation, setIsVisibleModalConfirmation] =
     useState(false);
+  const [account, setAccount] = useState({users: [], debtUser: {}, debt: 0});
   const [userIdToEdit, setUserIdToEdit] = useState(null);
   const [movementIdToEdit, setMovementIdToEdit] = useState(null);
   const [userAttributeToEdit, setUserAttributeToEdit] = useState(
@@ -31,14 +32,16 @@ const useHome = ({
   );
   const {handleEditUser} = useModeEditUser({
     userId: userIdToEdit,
-    attributeToEdit: userAttributeToEdit,
     onEditUser: () => {
       onUpdateUser();
-      findAccountById(accountId);
+      handleFetchAndSetAccount();
+      // Luego de editar usuario obtenemos los movimientos
+      // para que se vea la foto actualizada en la lista de movimientos
+      fetchMovements({accountId});
       setIsVisibleModalUser(false);
     },
   });
-  const {account, findAccountById} = useAccount({accountId});
+  const {findAccountById} = useAccount();
   const {deactivateAccount, fetchUser} = useUsers();
   const {
     movements,
@@ -112,6 +115,11 @@ const useHome = ({
     }));
   };
 
+  const handleFetchAndSetAccount = async () => {
+    const accountData = await findAccountById(accountId);
+    setAccount(accountData);
+  };
+
   const handleAddMovement = async amount => {
     setModalMovement(prevState => ({
       ...prevState,
@@ -125,7 +133,7 @@ const useHome = ({
       accountId,
     });
 
-    findAccountById(accountId);
+    handleFetchAndSetAccount();
     fetchMovements({accountId});
   };
 
@@ -142,7 +150,7 @@ const useHome = ({
 
     fetchMovements({accountId});
     // Buscamos la cuenta para actualizar el contador que refleja lo q se deben
-    findAccountById(accountId);
+    handleFetchAndSetAccount();
   };
 
   const handlePressImage = user => {
@@ -155,14 +163,18 @@ const useHome = ({
 
   const handleRemoveMovement = async id => {
     await removeMovement({id});
-    findAccountById(accountId);
+    handleFetchAndSetAccount();
     fetchMovements({accountId});
   };
 
   useEffect(() => {
-    findAccountById(accountId);
+    handleFetchAndSetAccount();
     fetchMovements({accountId});
   }, [accountId]);
+
+  useEffect(() => {
+    handleFetchAndSetAccount();
+  }, []);
 
   return {
     account,

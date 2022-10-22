@@ -16,7 +16,6 @@ const TextInput = forwardRef(
     },
     ref,
   ) => {
-    console.log('value', value);
     const [mask, setMask] = useState('');
 
     const handleChangeText = text => {
@@ -29,7 +28,6 @@ const TextInput = forwardRef(
     };
 
     const valueEffect = () => {
-      // console.log('value', value);
       if (keyboardType === 'numeric' && format) {
         const m = numeral(value).format(format);
         setMask(m);

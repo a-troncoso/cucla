@@ -20,10 +20,6 @@ const useModalAddMovement = ({
     } else if (mode === MODAL_MOVEMENT_MODES.ADD) {
       setAmount(0);
     }
-
-    // setTimeout(() => {
-    //   inputRef.current?.focus();
-    // }, 200);
   };
 
   const handleChangeAmount = value => {

@@ -1,45 +1,8 @@
 import {useEffect, useState} from 'react';
 import {useDatabase} from './useDatabase';
 
-export const useUsers = ({
-  userIdLogged = null,
-  onSuccessUserRegistration = null,
-} = {}) => {
+export const useUsers = ({userIdLogged = null} = {}) => {
   const {getDB, exQuery} = useDatabase();
-  const [userRegistrationResult, setUserRegistrationResult] = useState({
-    insertId: null,
-    rowsAffected: 0,
-  });
-  const [accountRegistrationResult, setAccountRegistrationResult] = useState({
-    insertId: null,
-    rowsAffected: 0,
-  });
-  const [userAccountAssociationResult, setUserAccountAssociationResult] =
-    useState({
-      rowsAffected: 0,
-    });
-
-  useEffect(() => {
-    if (userRegistrationResult.rowsAffected) registerNewAccount();
-  }, [userRegistrationResult]);
-
-  useEffect(() => {
-    if (accountRegistrationResult.rowsAffected) {
-      registerUserAccountAssociation({
-        userId: userRegistrationResult.insertId,
-        accountId: accountRegistrationResult.insertId,
-      });
-
-      registerUserAccountAssociation({
-        userId: userIdLogged,
-        accountId: accountRegistrationResult.insertId,
-      });
-    }
-  }, [accountRegistrationResult, userRegistrationResult]);
-
-  useEffect(() => {
-    if (userAccountAssociationResult.rowsAffected) onSuccessUserRegistration();
-  }, [userAccountAssociationResult]);
 
   const fetchUsers = async () => {
     try {
@@ -71,8 +34,24 @@ export const useUsers = ({
     const queryStatement = `INSERT INTO "user" ("name", "imagePath") VALUES ("${userName}", "${image}")`;
 
     try {
-      const res = await exQuery(getDB(), queryStatement);
-      setUserRegistrationResult(res);
+      const newUserData = await exQuery(getDB(), queryStatement);
+
+      const newAccountData = await registerNewAccount();
+
+      await registerUserAccountAssociation({
+        userId: newUserData.insertId,
+        accountId: newAccountData.insertId,
+      });
+
+      await registerUserAccountAssociation({
+        userId: userIdLogged,
+        accountId: newAccountData.insertId,
+      });
+
+      return {
+        newUser: newUserData,
+        newAccount: newAccountData,
+      };
     } catch (e) {
       console.error(e);
     }
@@ -106,7 +85,8 @@ export const useUsers = ({
         getDB(),
         'INSERT INTO "account" DEFAULT VALUES;',
       );
-      setAccountRegistrationResult(res);
+
+      return res;
     } catch (e) {
       console.error(e);
     }
@@ -118,7 +98,8 @@ export const useUsers = ({
         getDB(),
         `INSERT INTO "user_account" ("userId", "accountId") VALUES (${userId}, ${accountId});`,
       );
-      setUserAccountAssociationResult(res);
+
+      return res;
     } catch (e) {
       console.error(e);
     }
@@ -133,10 +114,6 @@ export const useUsers = ({
       console.error(e);
     }
   };
-
-  // useEffect(() => {
-  //   fetchUsers();
-  // }, []);
 
   return {
     fetchUsers,

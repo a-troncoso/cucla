@@ -52,11 +52,10 @@ const ModalUser = ({
               <TextInput
                 autoFocus
                 blurOnSubmit={false}
-                placeholder="Nombre del usuario"
+                placeholder="Nombre"
                 placeholderTextColor={colors.disabled}
                 ref={inputRef}
                 style={styles.textInputAmount}
-                textAlign="center"
                 value={newUserName}
                 onChangeText={handleChangeNewUserName}
                 onSubmitEditing={handleSubmitEditing}
@@ -104,6 +103,7 @@ const styles = StyleSheet.create({
   },
   textInputAmount: {
     fontSize: 32,
+    textAlign: 'center',
     color: colors.white,
   },
 });

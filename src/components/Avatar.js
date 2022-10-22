@@ -75,6 +75,7 @@ const stylesBySize = {
     width: 48,
     height: 48,
     borderRadius: 24,
+    borderWidth: 2,
   },
   [sizes.SMALL_MEDIUM]: {
     width: 72,

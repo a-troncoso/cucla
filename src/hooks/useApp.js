@@ -10,7 +10,7 @@ export const useApp = ({userIdLogged}) => {
     if (usersQuantity === 0)
       registerLoggedUser({
         id: userIdLogged,
-        name: 'root',
+        name: 'yo',
       });
   };
 
