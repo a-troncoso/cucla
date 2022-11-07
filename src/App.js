@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {View, StyleSheet} from 'react-native';
+import ErrorBoundary from 'react-native-error-boundary';
+import {View, StyleSheet, TouchableHighlight, Text, Alert} from 'react-native';
 import Home from 'screens/home/Home';
 import EmptyAccounts from 'screens/home/components/emptyAccounts/EmptyAccounts';
 import AccountSelector from 'components/AccountSelector';
@@ -10,11 +11,22 @@ import {useUsers} from 'hooks/useUsers';
 
 export const userIdLogged = 1;
 
+const OurFallbackComponent = ({error, resetErrorBoundary}) => {
+  return (
+    <View>
+      <Text>An error occurred: {error.message}</Text>
+      <TouchableHighlight onClick={resetErrorBoundary}>
+        Try again
+      </TouchableHighlight>
+    </View>
+  );
+};
+
 const App = () => {
   useApp({userIdLogged});
   const [isVisibleModalUser, setIsVisibleModalUser] = useState(false);
   const [selectedAccountId, setSelectedAccountId] = useState(null);
-  const [accounts, setAccounts] = useState({users: [], debtUser: {}, debt: 0});
+  const [accounts, setAccounts] = useState([]);
   const {findAccounts} = useAccount();
   const {registerUser} = useUsers({
     userIdLogged,
@@ -68,31 +80,33 @@ const App = () => {
   }, []);
 
   return (
-    <View style={styles.mainView}>
-      {accounts.length > 0 ? (
-        <Home
-          accountId={selectedAccountId}
-          onUpdateUser={handleUpdateUser}
-          onRemoveAccount={handleRemoveAccount}
+    <ErrorBoundary FallbackComponent={OurFallbackComponent}>
+      <View style={styles.mainView}>
+        {accounts.length > 0 ? (
+          <Home
+            accountId={selectedAccountId}
+            onUpdateUser={handleUpdateUser}
+            onRemoveAccount={handleRemoveAccount}
+          />
+        ) : (
+          <EmptyAccounts />
+        )}
+
+        <AccountSelector
+          accounts={accounts}
+          userIdLogged={userIdLogged}
+          onSelectAccount={handleSelectAccount}
+          onPressAddUser={handlePressAddUser}
         />
-      ) : (
-        <EmptyAccounts />
-      )}
 
-      <AccountSelector
-        accounts={accounts}
-        userIdLogged={userIdLogged}
-        onSelectAccount={handleSelectAccount}
-        onPressAddUser={handlePressAddUser}
-      />
-
-      <ModalUser
-        isVisible={isVisibleModalUser}
-        onSubmit={handleSubmitAddUser}
-        onAddUser={handleSubmitAddUser}
-        onRequestClose={handleRequestCloseModal}
-      />
-    </View>
+        <ModalUser
+          isVisible={isVisibleModalUser}
+          onSubmit={handleSubmitAddUser}
+          onAddUser={handleSubmitAddUser}
+          onRequestClose={handleRequestCloseModal}
+        />
+      </View>
+    </ErrorBoundary>
   );
 };
 
